@@ -1,1971 +1,1196 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jaymani Krishi Sewa — जयमानी कृषि सेवा</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>Jaymani Krishi Sewa | Intelligence Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{
+  primary:"#22c55e","primary-dark":"#16a34a",
+  accent:"#f59e0b","accent-orange":"#e67e22",
+  surface:"#111111","surface-2":"#1a1a1a",
+  danger:"#ef4444",info:"#3b82f6"
+}}}}
+</script>
 <style>
-  :root {
-    --earth: #2d1a0e;
-    --soil: #4a2c1a;
-    --wheat: #c8922a;
-    --wheat-light: #e8b84b;
-    --harvest: #f5d07a;
-    --leaf: #3a6b35;
-    --leaf-light: #5a9e52;
-    --sky: #d4eaf7;
-    --cream: #fdf6e3;
-    --parchment: #f5ead0;
-    --red-alert: #c0392b;
-    --red-light: #e74c3c;
-    --ink: #1a1208;
-    --muted: #7a6a55;
-    --border: rgba(200,146,42,0.25);
-    --glass: rgba(253,246,227,0.55);
-    --glass-dark: rgba(45,26,14,0.7);
-    --shadow: 0 8px 40px rgba(45,26,14,0.15);
-    --shadow-sm: 0 2px 12px rgba(45,26,14,0.1);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
-
-  /* ========== BACKGROUND ========== */
-  .bg-texture {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(200,146,42,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 85% 80%, rgba(58,107,53,0.07) 0%, transparent 60%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8922a' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  /* ========== NAV ========== */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 0 5%;
-    background: rgba(253,246,227,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-  }
-
-  .nav-logo {
-    display: flex; align-items: center; gap: 10px;
-  }
-
-  .nav-logo-icon {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, var(--leaf), var(--wheat));
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
-
-  .nav-logo-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--earth);
-    line-height: 1.1;
-  }
-
-  .nav-logo-sub {
-    font-size: 0.62rem;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.08em;
-    font-weight: 400;
-  }
-
-  .nav-tabs {
-    display: flex; gap: 4px;
-    background: rgba(45,26,14,0.06);
-    border-radius: 12px;
-    padding: 4px;
-  }
-
-  .nav-tab {
-    padding: 6px 18px;
-    border-radius: 9px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.25s;
-    border: none; background: none;
-    color: var(--muted);
-    font-family: 'Noto Sans Devanagari', sans-serif;
-  }
-
-  .nav-tab.active {
-    background: var(--earth);
-    color: var(--harvest);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .nav-right {
-    display: flex; align-items: center; gap: 10px;
-  }
-
-  .live-dot {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 0.72rem;
-    color: var(--leaf);
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-  }
-
-  .pulse {
-    width: 8px; height: 8px;
-    background: var(--leaf-light);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.7); }
-  }
-
-  /* ========== PAGES ========== */
-  .page { display: none; position: relative; z-index: 1; min-height: 100vh; padding-top: 64px; }
-  .page.active { display: block; }
-
-  /* ========== HERO ========== */
-  .hero {
-    padding: 80px 5% 60px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(58,107,53,0.1);
-    border: 1px solid rgba(58,107,53,0.3);
-    border-radius: 100px;
-    padding: 5px 14px;
-    font-size: 0.75rem;
-    color: var(--leaf);
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.05em;
-    margin-bottom: 24px;
-  }
-
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 5vw, 3.8rem);
-    font-weight: 900;
-    line-height: 1.08;
-    color: var(--earth);
-    margin-bottom: 8px;
-  }
-
-  .hero-title .accent {
-    color: var(--wheat);
-    font-style: italic;
-  }
-
-  .hero-subtitle {
-    font-size: 1.05rem;
-    color: var(--muted);
-    margin: 16px 0 32px;
-    line-height: 1.7;
-    font-weight: 400;
-  }
-
-  .hero-cta {
-    display: flex; gap: 12px; flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    padding: 12px 28px;
-    background: var(--earth);
-    color: var(--harvest);
-    border: none; border-radius: 12px;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s;
-    letter-spacing: 0.01em;
-  }
-  .btn-primary:hover { background: var(--soil); transform: translateY(-2px); box-shadow: var(--shadow); }
-
-  .btn-secondary {
-    padding: 12px 28px;
-    background: transparent;
-    color: var(--earth);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s;
-  }
-  .btn-secondary:hover { background: rgba(45,26,14,0.05); transform: translateY(-2px); }
-
-  /* Hero visual */
-  .hero-visual {
-    position: relative;
-  }
-
-  .hero-card-main {
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 28px;
-    box-shadow: var(--shadow);
-  }
-
-  .hero-card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px;
-  }
-
-  .shop-info h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--earth);
-  }
-
-  .shop-info p {
-    font-size: 0.75rem;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .stock-badge {
-    display: flex; align-items: center; gap: 5px;
-    background: rgba(58,107,53,0.12);
-    border: 1px solid rgba(58,107,53,0.3);
-    border-radius: 100px;
-    padding: 4px 12px;
-    font-size: 0.72rem;
-    color: var(--leaf);
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-  }
-
-  .mini-product {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .mini-product:last-child { border-bottom: none; }
-
-  .mini-product-left { display: flex; align-items: center; gap: 12px; }
-
-  .mini-icon {
-    width: 36px; height: 36px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    background: rgba(200,146,42,0.12);
-  }
-
-  .mini-name { font-size: 0.85rem; font-weight: 600; color: var(--earth); }
-  .mini-qty { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; }
-
-  .mini-price { font-size: 0.9rem; font-weight: 700; color: var(--leaf); }
-
-  .low-stock-tag {
-    font-size: 0.65rem;
-    background: rgba(192,57,43,0.12);
-    color: var(--red-alert);
-    border: 1px solid rgba(192,57,43,0.25);
-    border-radius: 100px;
-    padding: 2px 8px;
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-  }
-
-  .hero-float-card {
-    position: absolute;
-    bottom: -20px; right: -20px;
-    background: var(--earth);
-    color: var(--harvest);
-    border-radius: 16px;
-    padding: 16px 20px;
-    box-shadow: var(--shadow);
-    font-size: 0.8rem;
-    width: 180px;
-  }
-
-  .hero-float-card .amount {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--harvest);
-    display: block;
-    margin: 4px 0;
-  }
-
-  .hero-float-card .label {
-    font-size: 0.68rem;
-    color: rgba(245,208,122,0.6);
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  /* ========== STATS ROW ========== */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 5% 60px;
-  }
-
-  .stat-card {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .stat-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--earth);
-    display: block;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 4px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* ========== SECTION TITLE ========== */
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--earth);
-    margin-bottom: 6px;
-  }
-
-  .section-sub {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-bottom: 28px;
-  }
-
-  /* ========== FARMER MARKETPLACE ========== */
-  #farmer-page {
-    padding-top: 64px;
-  }
-
-  .marketplace-header {
-    padding: 40px 5% 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .filter-bar {
-    display: flex; gap: 10px; flex-wrap: wrap;
-    margin-bottom: 28px;
-  }
-
-  .filter-chip {
-    padding: 7px 18px;
-    border-radius: 100px;
-    font-size: 0.8rem;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-weight: 500;
-  }
-
-  .filter-chip.active {
-    background: var(--wheat);
-    border-color: var(--wheat);
-    color: var(--earth);
-    font-weight: 700;
-  }
-
-  .filter-chip:hover:not(.active) { background: rgba(200,146,42,0.08); border-color: var(--wheat); color: var(--earth); }
-
-  .search-input {
-    flex: 1; min-width: 220px;
-    padding: 8px 16px 8px 38px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    background: rgba(253,246,227,0.8);
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.85rem;
-    color: var(--earth);
-    outline: none;
-    transition: border 0.2s;
-  }
-
-  .search-input:focus { border-color: var(--wheat); }
-
-  .search-wrap { position: relative; flex: 1; min-width: 220px; max-width: 360px; }
-
-  .search-icon {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    font-size: 14px; pointer-events: none;
-  }
-
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 20px;
-    padding: 0 5% 60px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .product-card {
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 22px;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.25,0.8,0.25,1);
-    animation: fadeUp 0.4s ease forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow);
-    border-color: rgba(200,146,42,0.45);
-  }
-
-  .product-card.low-stock { border-color: rgba(192,57,43,0.4); }
-
-  .product-card-icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
-    background: rgba(200,146,42,0.12);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    margin-bottom: 14px;
-  }
-
-  .product-tag {
-    position: absolute; top: 16px; right: 16px;
-    font-size: 0.65rem;
-    border-radius: 100px;
-    padding: 3px 10px;
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-  }
-
-  .product-tag.low { background: rgba(192,57,43,0.1); color: var(--red-alert); border: 1px solid rgba(192,57,43,0.25); }
-  .product-tag.out { background: var(--red-alert); color: #fff; }
-  .product-tag.fresh { background: rgba(58,107,53,0.1); color: var(--leaf); border: 1px solid rgba(58,107,53,0.25); }
-
-  .product-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--earth); margin-bottom: 2px; }
-  .product-category { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; }
-
-  .product-stats {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    margin: 14px 0;
-  }
-
-  .product-price { font-size: 1.4rem; font-weight: 700; color: var(--leaf); font-family: 'Playfair Display', serif; }
-  .product-price span { font-size: 0.75rem; color: var(--muted); font-family: 'Noto Sans Devanagari', sans-serif; font-weight: 400; }
-
-  .product-qty {
-    font-size: 0.8rem;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .product-qty.low { color: var(--red-alert); font-weight: 700; }
-
-  .qty-bar {
-    height: 4px;
-    background: rgba(200,146,42,0.15);
-    border-radius: 100px;
-    margin-bottom: 16px;
-    overflow: hidden;
-  }
-
-  .qty-fill {
-    height: 100%;
-    border-radius: 100px;
-    transition: width 0.5s ease;
-  }
-
-  .reserve-btn {
-    width: 100%;
-    padding: 10px;
-    border-radius: 12px;
-    border: none;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s;
-    background: var(--earth);
-    color: var(--harvest);
-  }
-
-  .reserve-btn:hover { background: var(--soil); transform: translateY(-1px); }
-  .reserve-btn:disabled { background: rgba(45,26,14,0.1); color: var(--muted); cursor: not-allowed; transform: none; }
-
-  /* ========== VENDOR DASHBOARD ========== */
-  #vendor-page { padding-top: 64px; }
-
-  .dashboard-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 0;
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: calc(100vh - 64px);
-  }
-
-  .sidebar {
-    background: var(--earth);
-    padding: 28px 20px;
-    border-right: 1px solid rgba(200,146,42,0.15);
-  }
-
-  .sidebar-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: var(--harvest);
-    margin-bottom: 4px;
-  }
-
-  .sidebar-sub {
-    font-size: 0.7rem;
-    color: rgba(245,208,122,0.5);
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 24px;
-  }
-
-  .sidebar-metric {
-    background: rgba(200,146,42,0.12);
-    border: 1px solid rgba(200,146,42,0.2);
-    border-radius: 14px;
-    padding: 14px;
-    margin-bottom: 12px;
-  }
-
-  .sidebar-metric-label {
-    font-size: 0.68rem;
-    color: rgba(245,208,122,0.55);
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    margin-bottom: 4px;
-  }
-
-  .sidebar-metric-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--harvest);
-  }
-
-  .sidebar-metric-sub {
-    font-size: 0.7rem;
-    color: rgba(245,208,122,0.45);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .sidebar-alert {
-    background: rgba(192,57,43,0.2);
-    border: 1px solid rgba(192,57,43,0.4);
-    border-radius: 14px;
-    padding: 14px;
-    margin-top: 20px;
-  }
-
-  .sidebar-alert-title {
-    font-size: 0.75rem;
-    color: #ff8a80;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .sidebar-alert-item {
-    font-size: 0.72rem;
-    color: rgba(255,138,128,0.8);
-    font-family: 'DM Mono', monospace;
-    padding: 4px 0;
-    border-bottom: 1px solid rgba(192,57,43,0.2);
-  }
-
-  .sidebar-alert-item:last-child { border: none; }
-
-  .dashboard-main { padding: 28px 32px; }
-
-  .dash-section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    color: var(--earth);
-    margin-bottom: 6px;
-  }
-
-  .dash-section-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 20px; }
-
-  /* Add Product Form */
-  .add-product-form {
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 28px;
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 14px;
-  }
-
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group.full { grid-column: 1 / -1; }
-
-  .form-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .form-input, .form-select {
-    padding: 10px 14px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: rgba(253,246,227,0.7);
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.88rem;
-    color: var(--earth);
-    outline: none;
-    transition: border 0.2s, box-shadow 0.2s;
-  }
-
-  .form-input:focus, .form-select:focus {
-    border-color: var(--wheat);
-    box-shadow: 0 0 0 3px rgba(200,146,42,0.15);
-  }
-
-  .form-submit {
-    width: 100%;
-    padding: 12px;
-    background: var(--leaf);
-    color: #fff;
-    border: none; border-radius: 12px;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.25s;
-  }
-
-  .form-submit:hover { background: var(--leaf-light); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(58,107,53,0.3); }
-
-  /* Inventory Table */
-  .inventory-table-wrap {
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
-  }
-
-  .inv-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-  }
-
-  .inv-table th {
-    padding: 14px 18px;
-    text-align: left;
-    font-size: 0.68rem;
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    background: rgba(245,234,208,0.5);
-    font-weight: 500;
-  }
-
-  .inv-table td {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-    color: var(--ink);
-  }
-
-  .inv-table tr:last-child td { border-bottom: none; }
-
-  .inv-table tr:hover td { background: rgba(200,146,42,0.04); }
-
-  .qty-control {
-    display: flex; align-items: center; gap: 8px;
-  }
-
-  .qty-btn {
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: rgba(245,234,208,0.8);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--earth);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-
-  .qty-btn:hover { background: var(--wheat); color: var(--earth); }
-
-  .qty-display {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.9rem;
-    font-weight: 600;
-    min-width: 36px;
-    text-align: center;
-    color: var(--earth);
-  }
-
-  .qty-display.low { color: var(--red-alert); }
-
-  .status-pill {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 100px;
-    font-size: 0.68rem;
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-  }
-
-  .status-pill.ok { background: rgba(58,107,53,0.1); color: var(--leaf); border: 1px solid rgba(58,107,53,0.25); }
-  .status-pill.low { background: rgba(192,57,43,0.1); color: var(--red-alert); border: 1px solid rgba(192,57,43,0.25); }
-  .status-pill.out { background: var(--red-alert); color: #fff; }
-
-  /* ========== BAHI-KHATA ========== */
-  #khata-page { padding-top: 64px; }
-
-  .khata-layout {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 5% 60px;
-  }
-
-  .khata-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 32px;
-  }
-
-  .farmer-selector {
-    display: flex; align-items: center; gap: 10px;
-  }
-
-  .farmer-avatar {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--wheat), var(--leaf));
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-  }
-
-  .balance-summary {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 16px; margin-bottom: 28px;
-  }
-
-  .balance-card {
-    border-radius: 16px;
-    padding: 18px 20px;
-    border: 1px solid var(--border);
-  }
-
-  .balance-card.debit { background: rgba(192,57,43,0.07); border-color: rgba(192,57,43,0.25); }
-  .balance-card.credit { background: rgba(58,107,53,0.07); border-color: rgba(58,107,53,0.25); }
-  .balance-card.net { background: var(--glass); }
-
-  .balance-label { font-size: 0.7rem; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 6px; }
-  .balance-amount { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
-  .balance-card.debit .balance-amount { color: var(--red-alert); }
-  .balance-card.credit .balance-amount { color: var(--leaf); }
-  .balance-card.net .balance-amount { color: var(--earth); }
-
-  /* Ledger entries */
-  .ledger-entry {
-    display: flex; align-items: center; gap: 16px;
-    padding: 16px 20px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    margin-bottom: 10px;
-    transition: all 0.2s;
-    animation: fadeUp 0.3s ease forwards;
-    opacity: 0;
-  }
-
-  .ledger-entry:hover { transform: translateX(4px); border-color: var(--wheat); }
-
-  .ledger-icon {
-    width: 40px; height: 40px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .ledger-icon.debit { background: rgba(192,57,43,0.1); }
-  .ledger-icon.credit { background: rgba(58,107,53,0.1); }
-
-  .ledger-info { flex: 1; }
-  .ledger-note { font-size: 0.88rem; font-weight: 600; color: var(--earth); }
-  .ledger-date { font-size: 0.7rem; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
-
-  .ledger-amount { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; }
-  .ledger-amount.debit { color: var(--red-alert); }
-  .ledger-amount.credit { color: var(--leaf); }
-
-  /* ========== INVOICE ========== */
-  #invoice-page { padding-top: 64px; }
-
-  .invoice-layout {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 40px 5% 60px;
-  }
-
-  .invoice-doc {
-    background: #fff;
-    border: 1px solid rgba(200,146,42,0.2);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-  }
-
-  .invoice-header-band {
-    background: var(--earth);
-    padding: 28px 32px;
-    display: flex; justify-content: space-between; align-items: flex-start;
-  }
-
-  .inv-shop-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--harvest);
-  }
-
-  .inv-shop-address {
-    font-size: 0.75rem;
-    color: rgba(245,208,122,0.6);
-    margin-top: 4px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .inv-meta { text-align: right; }
-
-  .inv-order-id {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: rgba(245,208,122,0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .inv-order-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--harvest);
-    font-weight: 700;
-  }
-
-  .inv-date {
-    font-size: 0.7rem;
-    color: rgba(245,208,122,0.5);
-    font-family: 'DM Mono', monospace;
-    margin-top: 4px;
-  }
-
-  .invoice-body { padding: 28px 32px; }
-
-  .inv-farmer-row {
-    display: flex; justify-content: space-between;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 20px;
-  }
-
-  .inv-farmer-label {
-    font-size: 0.68rem;
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-
-  .inv-farmer-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--earth);
-  }
-
-  .inv-farmer-phone { font-size: 0.78rem; color: var(--muted); font-family: 'DM Mono', monospace; }
-
-  .inv-items-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-
-  .inv-items-table th {
-    padding: 10px 12px;
-    text-align: left;
-    font-size: 0.68rem;
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    font-weight: 500;
-  }
-
-  .inv-items-table td {
-    padding: 12px;
-    font-size: 0.85rem;
-    border-bottom: 1px solid rgba(200,146,42,0.1);
-    color: var(--ink);
-  }
-
-  .inv-items-table tr:last-child td { border-bottom: none; }
-  .inv-items-table td:last-child { text-align: right; font-weight: 600; }
-
-  .inv-totals {
-    border-top: 1.5px solid var(--border);
-    padding-top: 16px;
-  }
-
-  .inv-total-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 4px 12px;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-
-  .inv-total-row.grand {
-    margin-top: 8px;
-    padding: 12px;
-    background: rgba(200,146,42,0.08);
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--earth);
-  }
-
-  .inv-total-row.grand .amount {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: var(--leaf);
-  }
-
-  .inv-footer {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 18px 32px;
-    background: var(--parchment);
-    border-top: 1px solid var(--border);
-  }
-
-  .inv-payment-status {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 5px 14px;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-family: 'DM Mono', monospace;
-    font-weight: 600;
-  }
-
-  .inv-payment-status.unpaid { background: rgba(192,57,43,0.1); color: var(--red-alert); border: 1px solid rgba(192,57,43,0.3); }
-  .inv-payment-status.paid { background: rgba(58,107,53,0.1); color: var(--leaf); border: 1px solid rgba(58,107,53,0.3); }
-
-  .inv-print-btn {
-    padding: 9px 22px;
-    background: var(--earth);
-    color: var(--harvest);
-    border: none; border-radius: 10px;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .inv-print-btn:hover { background: var(--soil); }
-
-  /* ========== TOAST ========== */
-  #toast-container {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .toast {
-    background: var(--earth);
-    color: var(--harvest);
-    padding: 14px 20px;
-    border-radius: 16px;
-    box-shadow: var(--shadow);
-    display: flex; align-items: flex-start; gap: 12px;
-    max-width: 340px; width: 340px;
-    animation: toastIn 0.4s cubic-bezier(0.25,0.8,0.25,1) forwards;
-    border: 1px solid rgba(200,146,42,0.3);
-  }
-
-  @keyframes toastIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .toast-emoji { font-size: 1.3rem; flex-shrink: 0; }
-  .toast-title { font-size: 0.85rem; font-weight: 600; color: var(--harvest); }
-  .toast-body { font-size: 0.75rem; color: rgba(245,208,122,0.65); margin-top: 2px; }
-  .toast-close { margin-left: auto; background: none; border: none; color: rgba(245,208,122,0.4); font-size: 1.2rem; cursor: pointer; line-height: 1; flex-shrink: 0; }
-
-  /* ========== MODAL ========== */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(45,26,14,0.5);
-    backdrop-filter: blur(6px);
-    display: none; align-items: center; justify-content: center;
-  }
-
-  .modal-overlay.open { display: flex; }
-
-  .modal {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 28px;
-    width: 380px;
-    max-width: 94vw;
-    box-shadow: 0 20px 80px rgba(45,26,14,0.3);
-    animation: modalIn 0.35s cubic-bezier(0.25,0.8,0.25,1);
-  }
-
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.9) translateY(20px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--earth); margin-bottom: 4px; }
-  .modal-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 20px; }
-
-  .modal-input {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1.5px solid var(--border);
-    background: rgba(253,246,227,0.8);
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 1rem;
-    color: var(--earth);
-    outline: none;
-    margin-bottom: 16px;
-    text-align: center;
-    font-weight: 600;
-  }
-
-  .modal-input:focus { border-color: var(--wheat); }
-
-  .modal-buttons { display: flex; gap: 10px; }
-
-  .modal-confirm {
-    flex: 1;
-    padding: 11px;
-    background: var(--leaf);
-    color: #fff;
-    border: none; border-radius: 12px;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.88rem; font-weight: 700;
-    cursor: pointer; transition: all 0.2s;
-  }
-
-  .modal-confirm:hover { background: var(--leaf-light); }
-
-  .modal-cancel {
-    flex: 1;
-    padding: 11px;
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--border); border-radius: 12px;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    font-size: 0.88rem; font-weight: 600;
-    cursor: pointer; transition: all 0.2s;
-  }
-
-  .modal-cancel:hover { background: rgba(45,26,14,0.05); }
-
-  /* ========== RESPONSIVE ========== */
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; gap: 40px; }
-    .hero-float-card { bottom: -10px; right: 0; }
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .dashboard-layout { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-    .form-grid { grid-template-columns: 1fr; }
-    .balance-summary { grid-template-columns: 1fr; }
-    .nav-tabs { display: none; }
-    .mobile-nav { display: flex !important; }
-  }
-
-  .mobile-nav {
-    display: none;
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: rgba(253,246,227,0.95);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border);
-    padding: 8px;
-    z-index: 100;
-    gap: 4px;
-  }
-
-  .mobile-nav-btn {
-    flex: 1;
-    padding: 8px 4px;
-    border: none; background: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.65rem;
-    color: var(--muted);
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    display: flex; flex-direction: column; align-items: center; gap: 3px;
-  }
-
-  .mobile-nav-btn.active { background: rgba(45,26,14,0.08); color: var(--earth); font-weight: 600; }
-  .mobile-nav-btn .icon { font-size: 1.2rem; }
-
-  /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-  }
-
-  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
-  .empty-state p { font-size: 0.9rem; }
-
-  /* Stagger animation helper */
-  .product-card:nth-child(1) { animation-delay: 0.05s; }
-  .product-card:nth-child(2) { animation-delay: 0.10s; }
-  .product-card:nth-child(3) { animation-delay: 0.15s; }
-  .product-card:nth-child(4) { animation-delay: 0.20s; }
-  .product-card:nth-child(5) { animation-delay: 0.25s; }
-  .product-card:nth-child(6) { animation-delay: 0.30s; }
-
-  .ledger-entry:nth-child(1) { animation-delay: 0.05s; }
-  .ledger-entry:nth-child(2) { animation-delay: 0.10s; }
-  .ledger-entry:nth-child(3) { animation-delay: 0.15s; }
-  .ledger-entry:nth-child(4) { animation-delay: 0.20s; }
-  .ledger-entry:nth-child(5) { animation-delay: 0.25s; }
+*{scrollbar-width:thin;scrollbar-color:#333 transparent}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#333;border-radius:9px}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+.material-symbols-outlined.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+body{font-family:'Inter',sans-serif;background:#050505;color:#fff;overflow-x:hidden}
+.page{display:none;min-height:100vh}.page.active{display:block}
+.glass{background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06)}
+.glass-strong{background:rgba(255,255,255,0.06);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.1)}
+.glow-green{box-shadow:0 0 60px -10px rgba(34,197,94,0.3)}
+.glow-amber{box-shadow:0 0 60px -10px rgba(245,158,11,0.3)}
+.input-field{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#fff;transition:all .3s}
+.input-field:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,0.15)}
+.input-field::placeholder{color:#555}
+.btn-primary{background:#22c55e;color:#000;font-weight:700;transition:all .3s}
+.btn-primary:hover{background:#16a34a;transform:translateY(-1px);box-shadow:0 10px 30px -5px rgba(34,197,94,0.4)}
+.btn-primary:active{transform:scale(.97)}
+.btn-ghost{background:rgba(255,255,255,0.05);color:#a3a3a3;border:1px solid rgba(255,255,255,0.08);font-weight:600;transition:all .3s}
+.btn-ghost:hover{background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.15)}
+.card{background:#111;border:1px solid rgba(255,255,255,0.06);border-radius:1.5rem;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.card:hover{border-color:rgba(255,255,255,0.12);transform:translateY(-4px);box-shadow:0 20px 40px -10px rgba(0,0,0,0.5)}
+.toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+.toast{padding:14px 24px;border-radius:1rem;font-size:13px;font-weight:600;backdrop-filter:blur(20px);animation:slideInRight .4s ease;min-width:280px;display:flex;align-items:center;gap:10px}
+.toast-success{background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#22c55e}
+.toast-error{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444}
+.toast-info{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#3b82f6}
+@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes slideOutRight{from{transform:translateX(0);opacity:1}to{transform:translateX(100%);opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse-ring{0%{transform:scale(.8);opacity:1}100%{transform:scale(2.2);opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.animate-fade-up{animation:fadeUp .6s ease forwards;opacity:0}
+.animate-float{animation:float 4s ease-in-out infinite}
+.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}.delay-5{animation-delay:.5s}
+.sidebar-link{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:14px;font-size:13px;font-weight:500;color:#666;transition:all .3s;cursor:pointer}
+.sidebar-link:hover{background:rgba(255,255,255,0.05);color:#a3a3a3}
+.sidebar-link.active{background:rgba(34,197,94,0.1);color:#22c55e;font-weight:700}
+.badge{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.table-row{border-bottom:1px solid rgba(255,255,255,0.04);transition:background .2s}
+.table-row:hover{background:rgba(255,255,255,0.03)}
+select.input-field{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+@media print{.no-print{display:none!important}body{background:#fff!important;color:#000!important}}
+.hero-bg{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(34,197,94,0.08),transparent),radial-gradient(ellipse 60% 40% at 80% 20%,rgba(245,158,11,0.05),transparent)}
 </style>
 </head>
 <body>
 
-<div class="bg-texture"></div>
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">
-    <div class="nav-logo-icon">🌾</div>
-    <div>
-      <div class="nav-logo-text">Jaymani Krishi Sewa</div>
-      <div class="nav-logo-sub">GONDA · UP · INDIA</div>
-    </div>
+<!-- ==================== LANDING PAGE ==================== -->
+<div id="page-landing" class="page active">
+<div class="hero-bg min-h-screen">
+<nav class="fixed top-0 w-full z-50 px-6 py-5">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+ <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('landing')">
+  <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 rotate-3">
+   <span class="material-symbols-outlined text-black text-xl">eco</span>
   </div>
-
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('home')">होम</button>
-    <button class="nav-tab" onclick="showPage('farmer')">किसान बाज़ार</button>
-    <button class="nav-tab" onclick="showPage('vendor')">दुकानदार</button>
-    <button class="nav-tab" onclick="showPage('khata')">बही-खाता</button>
-    <button class="nav-tab" onclick="showPage('invoice')">बिल / Invoice</button>
+  <div>
+   <span class="text-lg font-black tracking-tighter text-white">JAYMANI</span>
+   <p class="text-[9px] font-bold text-primary/70 uppercase tracking-[.2em] -mt-0.5">Krishi Sewa</p>
   </div>
-
-  <div class="nav-right">
-    <div class="live-dot">
-      <div class="pulse"></div>
-      LIVE
-    </div>
-  </div>
+ </div>
+ <div class="hidden md:flex items-center gap-8">
+  <a onclick="navigate('support')" class="text-xs font-semibold text-neutral-400 hover:text-white transition cursor-pointer">Support</a>
+  <a onclick="navigate('design-process')" class="text-xs font-semibold text-neutral-400 hover:text-white transition cursor-pointer">Design Process</a>
+  <button onclick="navigate('login')" class="px-6 py-2.5 bg-white text-black text-xs font-bold rounded-full hover:bg-neutral-200 transition">Sign In</button>
+  <button onclick="navigate('register')" class="px-6 py-2.5 btn-primary text-xs rounded-full">Register</button>
+ </div>
+ <button onclick="toggleMobileNav()" class="md:hidden text-white"><span class="material-symbols-outlined">menu</span></button>
+</div>
 </nav>
 
-<!-- MOBILE NAV -->
-<div class="mobile-nav">
-  <button class="mobile-nav-btn active" onclick="showPage('home')"><span class="icon">🏠</span>होम</button>
-  <button class="mobile-nav-btn" onclick="showPage('farmer')"><span class="icon">🌾</span>बाज़ार</button>
-  <button class="mobile-nav-btn" onclick="showPage('vendor')"><span class="icon">🏪</span>दुकान</button>
-  <button class="mobile-nav-btn" onclick="showPage('khata')"><span class="icon">📒</span>खाता</button>
-  <button class="mobile-nav-btn" onclick="showPage('invoice')"><span class="icon">🧾</span>बिल</button>
+<!-- Mobile Nav -->
+<div id="mobileNav" class="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6">
+ <button onclick="toggleMobileNav()" class="absolute top-6 right-6 text-white"><span class="material-symbols-outlined text-3xl">close</span></button>
+ <a onclick="navigate('login');toggleMobileNav()" class="text-xl font-bold text-white cursor-pointer">Sign In</a>
+ <a onclick="navigate('register');toggleMobileNav()" class="text-xl font-bold text-primary cursor-pointer">Register</a>
+ <a onclick="navigate('support');toggleMobileNav()" class="text-lg text-neutral-400 cursor-pointer">Support</a>
 </div>
 
-<!-- ==================== HOME PAGE ==================== -->
-<div id="home-page" class="page active">
-  <div class="hero">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span>●</span> Gonda, Uttar Pradesh · Real-Time Inventory
-      </div>
-      <h1 class="hero-title">
-        खेत से दुकान तक,<br>
-        <span class="accent">Digital Bridge.</span>
-      </h1>
-      <p class="hero-subtitle">
-        किसान अब घर बैठे Pandey Traders का लाइव स्टॉक देखें, आइटम रिज़र्व करें, और डिजिटल बिल पाएं — बिना किसी यात्रा के।
-      </p>
-      <div class="hero-cta">
-        <button class="btn-primary" onclick="showPage('farmer')">🌾 स्टॉक देखें</button>
-        <button class="btn-secondary" onclick="showPage('vendor')">🏪 दुकानदार लॉगिन</button>
-      </div>
-    </div>
-
-    <div class="hero-visual">
-      <div class="hero-card-main">
-        <div class="hero-card-header">
-          <div class="shop-info">
-            <h3>Pandey Traders</h3>
-            <p>Gonda Mandi, UP · 9AM–7PM</p>
-          </div>
-          <div class="stock-badge">
-            <div class="pulse"></div> Live स्टॉक
-          </div>
-        </div>
-
-        <div class="mini-product">
-          <div class="mini-product-left">
-            <div class="mini-icon">🌿</div>
-            <div>
-              <div class="mini-name">DAP खाद</div>
-              <div class="mini-qty">42 बैग</div>
-            </div>
-          </div>
-          <div class="mini-price">₹1,350/बैग</div>
-        </div>
-
-        <div class="mini-product">
-          <div class="mini-product-left">
-            <div class="mini-icon">🌱</div>
-            <div>
-              <div class="mini-name">Urea यूरिया</div>
-              <div class="mini-qty">3 बैग</div>
-            </div>
-          </div>
-          <div style="text-align:right">
-            <div class="mini-price">₹267/बैग</div>
-            <div class="low-stock-tag">⚠ कम</div>
-          </div>
-        </div>
-
-        <div class="mini-product">
-          <div class="mini-product-left">
-            <div class="mini-icon">🪲</div>
-            <div>
-              <div class="mini-name">Rogor कीटनाशक</div>
-              <div class="mini-qty">18 बोतल</div>
-            </div>
-          </div>
-          <div class="mini-price">₹320/बोतल</div>
-        </div>
-      </div>
-
-      <div class="hero-float-card">
-        <span class="label">आज का कलेक्शन</span>
-        <span class="amount">₹38,420</span>
-        <span class="label">12 ऑर्डर · JKS-GONDA</span>
-      </div>
-    </div>
+<!-- Hero -->
+<div class="pt-40 pb-20 px-6">
+<div class="max-w-5xl mx-auto text-center">
+ <div class="animate-fade-up">
+  <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-bold text-primary mb-8">
+   <span class="status-dot bg-primary animate-pulse"></span> Sharda University DCL Project
   </div>
+ </div>
+ <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.85] animate-fade-up delay-1">
+  Digital<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Krishi</span> Intelligence
+ </h1>
+ <p class="mt-8 text-neutral-400 text-base md:text-lg font-medium max-w-2xl mx-auto leading-relaxed animate-fade-up delay-2">
+  Empowering 1.2M+ farmers with real-time stock visibility, digital bahi-khata, and transparent pricing — from <b class="text-white">Pandey Traders</b> to your khet.
+ </p>
+ <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate-fade-up delay-3">
+  <button onclick="navigate('register')" class="px-10 py-4 btn-primary text-sm rounded-full flex items-center justify-center gap-2">
+   <span class="material-symbols-outlined text-lg">agriculture</span> Start Free
+  </button>
+  <button onclick="navigate('design-process')" class="px-10 py-4 btn-ghost text-sm rounded-full flex items-center justify-center gap-2">
+   <span class="material-symbols-outlined text-lg">science</span> View Research
+  </button>
+ </div>
 
-  <div class="stats-row">
-    <div class="stat-card">
-      <span class="stat-number">340+</span>
-      <div class="stat-label">किसान पंजीकृत</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-number">18</span>
-      <div class="stat-label">उत्पाद उपलब्ध</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-number" style="color:var(--red-alert)">3</span>
-      <div class="stat-label">कम स्टॉक अलर्ट</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-number">₹2.1L</span>
-      <div class="stat-label">इस महीने का लेनदेन</div>
-    </div>
+ <!-- Stats -->
+ <div class="mt-24 grid grid-cols-2 md:grid-cols-4 gap-6 animate-fade-up delay-4">
+  <div class="glass rounded-2xl p-6 text-center">
+   <p class="text-3xl font-black text-primary">1,284</p>
+   <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mt-1">Farmers</p>
   </div>
+  <div class="glass rounded-2xl p-6 text-center">
+   <p class="text-3xl font-black text-accent">56</p>
+   <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mt-1">Vendors</p>
+  </div>
+  <div class="glass rounded-2xl p-6 text-center">
+   <p class="text-3xl font-black text-white">₹4.2M</p>
+   <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mt-1">Volume</p>
+  </div>
+  <div class="glass rounded-2xl p-6 text-center">
+   <p class="text-3xl font-black text-info">98%</p>
+   <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mt-1">Satisfaction</p>
+  </div>
+ </div>
+</div>
 </div>
 
-<!-- ==================== FARMER MARKETPLACE ==================== -->
-<div id="farmer-page" class="page">
-  <div class="marketplace-header">
-    <div class="section-title">किसान बाज़ार</div>
-    <div class="section-sub">Pandey Traders · Gonda का लाइव स्टॉक</div>
-
-    <div class="filter-bar">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" class="search-input" placeholder="उत्पाद खोजें..." id="search-input" oninput="filterProducts()">
-      </div>
-      <button class="filter-chip active" data-filter="all" onclick="setFilter(this,'all')">सभी</button>
-      <button class="filter-chip" data-filter="fertilizer" onclick="setFilter(this,'fertilizer')">खाद</button>
-      <button class="filter-chip" data-filter="pesticide" onclick="setFilter(this,'pesticide')">कीटनाशक</button>
-      <button class="filter-chip" data-filter="seed" onclick="setFilter(this,'seed')">बीज</button>
-      <button class="filter-chip" data-filter="equipment" onclick="setFilter(this,'equipment')">उपकरण</button>
-    </div>
+<!-- Features -->
+<div class="py-20 px-6 border-t border-white/5">
+<div class="max-w-6xl mx-auto">
+ <p class="text-[10px] font-black text-neutral-500 uppercase tracking-[.3em] text-center mb-12">Platform Capabilities</p>
+ <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div class="card p-8">
+   <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6"><span class="material-symbols-outlined text-3xl text-primary">store</span></div>
+   <h3 class="text-lg font-bold mb-2">Digital Marketplace</h3>
+   <p class="text-sm text-neutral-500 leading-relaxed">Browse verified seeds, fertilizers & pesticides with real-time stock from Pandey Traders.</p>
   </div>
-
-  <div class="products-grid" id="products-grid"></div>
+  <div class="card p-8">
+   <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-6"><span class="material-symbols-outlined text-3xl text-accent">menu_book</span></div>
+   <h3 class="text-lg font-bold mb-2">Digital Bahi-Khata</h3>
+   <p class="text-sm text-neutral-500 leading-relaxed">Track udhaari, payments & transaction history — all digitized and transparent.</p>
+  </div>
+  <div class="card p-8">
+   <div class="w-14 h-14 bg-info/10 rounded-2xl flex items-center justify-center mb-6"><span class="material-symbols-outlined text-3xl text-info">sms</span></div>
+   <h3 class="text-lg font-bold mb-2">SMS (Offline Mode)</h3>
+   <p class="text-sm text-neutral-500 leading-relaxed">No internet? Text "STOCK UREA 271001" to 1800-XXX-XXXX for instant updates.</p>
+  </div>
+ </div>
+</div>
 </div>
 
-<!-- ==================== VENDOR DASHBOARD ==================== -->
-<div id="vendor-page" class="page">
-  <div class="dashboard-layout">
-    <div class="sidebar">
-      <div class="sidebar-title">Pandey Traders</div>
-      <div class="sidebar-sub">Gonda Mandi · Dashboard</div>
-
-      <div class="sidebar-metric">
-        <div class="sidebar-metric-label">आज की बिक्री</div>
-        <div class="sidebar-metric-value">₹38,420</div>
-        <div class="sidebar-metric-sub">12 ऑर्डर आज</div>
-      </div>
-
-      <div class="sidebar-metric">
-        <div class="sidebar-metric-label">कुल उत्पाद</div>
-        <div class="sidebar-metric-value" id="total-products-count">18</div>
-        <div class="sidebar-metric-sub">सक्रिय स्टॉक</div>
-      </div>
-
-      <div class="sidebar-metric">
-        <div class="sidebar-metric-label">रिज़र्वेशन</div>
-        <div class="sidebar-metric-value">7</div>
-        <div class="sidebar-metric-sub">आज के लंबित</div>
-      </div>
-
-      <div class="sidebar-alert">
-        <div class="sidebar-alert-title">⚠ कम स्टॉक अलर्ट</div>
-        <div id="low-stock-alerts"></div>
-      </div>
-    </div>
-
-    <div class="dashboard-main">
-      <div class="dash-section-title">नया उत्पाद जोड़ें</div>
-      <div class="dash-section-sub">स्टॉक अपडेट करने पर किसानों को तुरंत सूचना मिलेगी</div>
-
-      <div class="add-product-form">
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">उत्पाद का नाम</label>
-            <input type="text" class="form-input" id="v-name" placeholder="जैसे: DAP खाद">
-          </div>
-          <div class="form-group">
-            <label class="form-label">श्रेणी</label>
-            <select class="form-select" id="v-category">
-              <option value="fertilizer">खाद (Fertilizer)</option>
-              <option value="pesticide">कीटनाशक (Pesticide)</option>
-              <option value="seed">बीज (Seed)</option>
-              <option value="equipment">उपकरण (Equipment)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">मूल्य (₹)</label>
-            <input type="number" class="form-input" id="v-price" placeholder="0.00">
-          </div>
-          <div class="form-group">
-            <label class="form-label">मात्रा</label>
-            <input type="number" class="form-input" id="v-qty" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label class="form-label">इकाई</label>
-            <select class="form-select" id="v-unit">
-              <option value="बैग">बैग</option>
-              <option value="kg">kg</option>
-              <option value="लीटर">लीटर</option>
-              <option value="बोतल">बोतल</option>
-              <option value="पैकेट">पैकेट</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">कम स्टॉक सीमा</label>
-            <input type="number" class="form-input" id="v-threshold" placeholder="5" value="5">
-          </div>
-        </div>
-        <button class="form-submit" onclick="addProduct()">✚ स्टॉक में जोड़ें और किसानों को सूचित करें</button>
-      </div>
-
-      <div class="dash-section-title">स्टॉक प्रबंधन</div>
-      <div class="dash-section-sub">मात्रा अपडेट करें — बदलाव तुरंत किसान पोर्टल पर दिखेगा</div>
-
-      <div class="inventory-table-wrap">
-        <table class="inv-table">
-          <thead>
-            <tr>
-              <th>उत्पाद</th>
-              <th>श्रेणी</th>
-              <th>मूल्य</th>
-              <th>मात्रा</th>
-              <th>स्थिति</th>
-            </tr>
-          </thead>
-          <tbody id="vendor-inventory-body"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<footer class="border-t border-white/5 py-12 px-6 text-center">
+ <p class="text-[10px] font-bold text-neutral-600 uppercase tracking-[.3em]">© 2026 Jaymani Krishi Sewa • Dev by Manish Pandey & Jayant Raj • Sharda University CSE</p>
+</footer>
+</div>
 </div>
 
-<!-- ==================== BAHI-KHATA ==================== -->
-<div id="khata-page" class="page">
-  <div class="khata-layout">
-    <div class="khata-header">
-      <div>
-        <div class="section-title">डिजिटल बही-खाता</div>
-        <div class="section-sub">Pandey Traders — किसान लेनदेन रजिस्टर</div>
-      </div>
-      <div class="farmer-selector">
-        <div class="farmer-avatar">रा</div>
-        <div>
-          <div style="font-weight:600;font-size:0.9rem;color:var(--earth)">रामकिशन यादव</div>
-          <div style="font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace">+91 98765 43210</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="balance-summary">
-      <div class="balance-card debit">
-        <div class="balance-label">कुल उधार</div>
-        <div class="balance-amount">₹4,850</div>
-        <div style="font-size:0.7rem;color:var(--red-alert);opacity:0.7;margin-top:4px;font-family:'DM Mono',monospace">3 लेनदेन</div>
-      </div>
-      <div class="balance-card credit">
-        <div class="balance-label">कुल भुगतान</div>
-        <div class="balance-amount">₹2,000</div>
-        <div style="font-size:0.7rem;color:var(--leaf);opacity:0.7;margin-top:4px;font-family:'DM Mono',monospace">2 भुगतान</div>
-      </div>
-      <div class="balance-card net">
-        <div class="balance-label">शेष बकाया</div>
-        <div class="balance-amount" style="color:var(--red-alert)">₹2,850</div>
-        <div style="font-size:0.7rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">देय राशि</div>
-      </div>
-    </div>
-
-    <div style="margin-bottom:16px;display:flex;gap:10px;justify-content:flex-end">
-      <button class="btn-secondary" onclick="addKhataEntry('credit')">+ भुगतान दर्ज करें</button>
-      <button class="btn-primary" onclick="showPage('invoice')">🧾 नया बिल</button>
-    </div>
-
-    <div id="ledger-entries"></div>
+<!-- ==================== LOGIN PAGE ==================== -->
+<div id="page-login" class="page">
+<div class="min-h-screen flex items-center justify-center p-6 hero-bg">
+<div class="w-full max-w-[420px]">
+ <div class="text-center mb-8">
+  <div onclick="navigate('landing')" class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4 cursor-pointer shadow-lg shadow-primary/30 rotate-3">
+   <span class="material-symbols-outlined text-black text-2xl">eco</span>
   </div>
+  <h2 class="text-2xl font-black tracking-tight">Welcome Back</h2>
+  <p id="loginRoleText" class="text-primary text-xs font-bold uppercase tracking-widest mt-1">Farmer Access</p>
+ </div>
+ <div class="glass-strong rounded-3xl p-8">
+  <div class="flex bg-white/5 p-1 rounded-xl mb-6">
+   <button onclick="setLoginRole('farmer')" id="ltab-farmer" class="ltab flex-1 py-2.5 rounded-lg text-xs font-bold transition-all bg-primary text-black">Kisan</button>
+   <button onclick="setLoginRole('vendor')" id="ltab-vendor" class="ltab flex-1 py-2.5 rounded-lg text-xs font-bold transition-all text-neutral-500">Vendor</button>
+   <button onclick="setLoginRole('admin')" id="ltab-admin" class="ltab flex-1 py-2.5 rounded-lg text-xs font-bold transition-all text-neutral-500">Admin</button>
+  </div>
+  <div id="loginError" class="hidden mb-4 p-3 bg-danger/10 border border-danger/20 text-danger rounded-xl text-xs font-bold flex items-center gap-2">
+   <span class="material-symbols-outlined text-sm">warning</span> Invalid credentials
+  </div>
+  <div class="space-y-4">
+   <div class="relative">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 text-lg">person</span>
+    <input type="text" id="loginId" placeholder="Username / Mobile" class="input-field w-full pl-11 pr-4 py-3.5 rounded-xl text-sm">
+   </div>
+   <div class="relative">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 text-lg">lock</span>
+    <input type="password" id="loginPass" placeholder="Password" class="input-field w-full pl-11 pr-4 py-3.5 rounded-xl text-sm" onkeydown="if(event.key==='Enter')doLogin()">
+   </div>
+  </div>
+  <button onclick="doLogin()" id="loginBtn" class="w-full mt-6 py-4 btn-primary text-sm rounded-xl">SIGN IN</button>
+  <div class="mt-6 text-center border-t border-white/5 pt-5">
+   <p class="text-xs text-neutral-500">New here? <a onclick="navigate('register')" class="text-primary font-bold cursor-pointer hover:underline">Create Account</a></p>
+  </div>
+ </div>
+ <p class="text-center text-[10px] text-neutral-600 mt-6 uppercase tracking-widest">Sharda University DCL Project</p>
+</div>
+</div>
+</div>
+
+<!-- ==================== REGISTER PAGE ==================== -->
+<div id="page-register" class="page">
+<div class="min-h-screen flex items-center justify-center p-6 hero-bg">
+<div class="w-full max-w-xl">
+ <div class="flex gap-2 mb-10 justify-center">
+  <div class="h-1.5 w-20 bg-primary rounded-full"></div>
+  <div class="h-1.5 w-20 bg-white/10 rounded-full"></div>
+  <div class="h-1.5 w-20 bg-white/10 rounded-full"></div>
+ </div>
+ <div class="text-center mb-10">
+  <h1 class="text-3xl font-black tracking-tight">Create <span class="text-primary">Account</span></h1>
+  <p class="text-neutral-500 text-sm mt-2">Join 1,284+ farmers on Jaymani Platform</p>
+ </div>
+ <div class="glass-strong rounded-3xl p-8 md:p-10">
+  <form id="regForm" onsubmit="doRegister(event)" class="space-y-5">
+   <div class="flex bg-white/5 p-1 rounded-xl">
+    <button type="button" onclick="setRegRole('farmer')" id="rtab-farmer" class="rtab flex-1 py-3 text-xs font-black rounded-lg transition-all bg-primary text-black">FARMER</button>
+    <button type="button" onclick="setRegRole('vendor')" id="rtab-vendor" class="rtab flex-1 py-3 text-xs font-black rounded-lg transition-all text-neutral-500">RETAILER</button>
+   </div>
+   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Full Name</label>
+    <input type="text" id="regName" required placeholder="Manish Pandey" class="input-field w-full px-4 py-3.5 rounded-xl text-sm"></div>
+    <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Mobile</label>
+    <input type="tel" id="regMobile" required placeholder="98XXXXXXXX" class="input-field w-full px-4 py-3.5 rounded-xl text-sm"></div>
+   </div>
+   <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Password</label>
+   <input type="password" id="regPass" required minlength="4" placeholder="Min 4 characters" class="input-field w-full px-4 py-3.5 rounded-xl text-sm"></div>
+   <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Aadhaar / Kisan Card</label>
+   <div class="relative"><span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">badge</span>
+   <input type="text" id="regAadhaar" required placeholder="XXXX-XXXX-XXXX" class="input-field w-full pl-11 pr-4 py-3.5 rounded-xl text-sm"></div></div>
+   <button type="submit" class="w-full py-4 btn-primary text-sm rounded-xl flex items-center justify-center gap-2">
+    REGISTER NOW <span class="material-symbols-outlined text-lg">how_to_reg</span>
+   </button>
+  </form>
+  <p class="text-center text-xs text-neutral-500 mt-6">Already registered? <a onclick="navigate('login')" class="text-primary font-bold cursor-pointer hover:underline">Sign In</a></p>
+ </div>
+</div>
+</div>
+</div>
+
+<!-- ==================== MARKETPLACE ==================== -->
+<div id="page-marketplace" class="page">
+<!-- Top Bar -->
+<header class="fixed top-0 w-full z-50 glass-strong">
+<div class="max-w-[1600px] mx-auto px-6 py-3 flex items-center justify-between gap-4">
+ <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('landing')">
+  <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center rotate-3"><span class="material-symbols-outlined text-black text-lg">eco</span></div>
+  <span class="text-base font-black tracking-tighter hidden sm:block">JAYMANI</span>
+ </div>
+ <div class="flex-1 max-w-xl hidden md:block">
+  <div class="relative"><span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 text-lg">search</span>
+  <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search seeds, fertilizers, pesticides..." class="input-field w-full pl-11 pr-4 py-3 rounded-xl text-sm"></div>
+ </div>
+ <div class="flex items-center gap-4">
+  <button onclick="toggleCart()" class="relative p-2 rounded-xl hover:bg-white/5 transition">
+   <span class="material-symbols-outlined text-neutral-300">shopping_cart</span>
+   <span id="cartCount" class="absolute -top-1 -right-1 bg-primary text-black text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+  </button>
+  <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('profile')">
+   <div class="w-9 h-9 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary" id="mpAvatar">M</div>
+   <span id="mpUser" class="text-xs font-bold text-neutral-300 hidden sm:block">Farmer</span>
+  </div>
+  <button onclick="doLogout()" class="p-2 rounded-xl hover:bg-danger/10 transition" title="Logout"><span class="material-symbols-outlined text-neutral-500 text-lg">logout</span></button>
+ </div>
+</div>
+</header>
+
+<div class="pt-20 pb-24 px-6">
+<div class="max-w-[1600px] mx-auto flex gap-8">
+ <!-- Sidebar -->
+ <aside class="hidden xl:block w-64 flex-shrink-0 sticky top-20 h-fit">
+  <div class="glass rounded-2xl p-5 space-y-1">
+   <p class="text-[10px] font-black text-neutral-600 uppercase tracking-widest mb-3 px-3">Categories</p>
+   <button onclick="filterCat('')" class="cat-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-primary bg-primary/10">All Items</button>
+   <button onclick="filterCat('seed')" class="cat-btn w-full text-left px-3 py-2.5 rounded-xl text-sm text-neutral-500 hover:bg-white/5 transition">🌱 Seeds</button>
+   <button onclick="filterCat('fertilizer')" class="cat-btn w-full text-left px-3 py-2.5 rounded-xl text-sm text-neutral-500 hover:bg-white/5 transition">🧪 Fertilizers</button>
+   <button onclick="filterCat('insecticide')" class="cat-btn w-full text-left px-3 py-2.5 rounded-xl text-sm text-neutral-500 hover:bg-white/5 transition">🛡️ Pesticides</button>
+   <button onclick="filterCat('equipment')" class="cat-btn w-full text-left px-3 py-2.5 rounded-xl text-sm text-neutral-500 hover:bg-white/5 transition">🔧 Equipment</button>
+  </div>
+  <div class="glass rounded-2xl p-5 mt-4 space-y-1">
+   <p class="text-[10px] font-black text-neutral-600 uppercase tracking-widest mb-3 px-3">Quick Links</p>
+   <button onclick="navigate('orders')" class="w-full text-left px-3 py-2.5 rounded-xl text-sm text-neutral-500 hover:bg-white/5 transition flex items-center gap-2"><span class="material-symbols-outlined text-base">history</span> Orders</button>
+   <button onclick="navigate('bahi-khata')" class="w-full text-left px-3 py-2.5 rounded-xl text-sm text-neutral-500 hover:bg-white/5 transition flex items-center gap-2"><span class="material-symbols-outlined text-base">menu_book</span> Bahi-Khata</button>
+   <button onclick="navigate('profile')" class="w-full text-left px-3 py-2.5 rounded-xl text-sm text-neutral-500 hover:bg-white/5 transition flex items-center gap-2"><span class="material-symbols-outlined text-base">settings</span> Settings</button>
+  </div>
+ </aside>
+ <!-- Products Grid -->
+ <main class="flex-1">
+  <div class="mb-8">
+   <h1 class="text-2xl md:text-3xl font-black tracking-tight">Farmer <span class="text-primary">Marketplace</span></h1>
+   <p class="text-neutral-500 text-sm mt-1">Verified stock from <span class="text-accent font-bold">Pandey Traders</span></p>
+  </div>
+  <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+ </main>
+</div>
+</div>
+
+<!-- Cart Sidebar -->
+<div id="cartSidebar" class="fixed inset-0 z-[70] hidden">
+ <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleCart()"></div>
+ <div class="absolute right-0 top-0 h-full w-full max-w-md bg-[#111] border-l border-white/10 shadow-2xl flex flex-col transform transition-transform duration-300" id="cartPanel">
+  <div class="p-6 border-b border-white/5 flex items-center justify-between">
+   <h2 class="text-xl font-black">Your <span class="text-primary">Cart</span></h2>
+   <button onclick="toggleCart()" class="p-2 rounded-xl hover:bg-white/5"><span class="material-symbols-outlined">close</span></button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-3"></div>
+  <div class="p-6 border-t border-white/5 space-y-4">
+   <div class="flex justify-between font-black text-lg"><span>Total</span><span id="cartTotal" class="text-primary">₹0</span></div>
+   <button onclick="checkout()" class="w-full py-4 btn-primary text-sm rounded-xl">CONFIRM ORDER</button>
+  </div>
+ </div>
+</div>
+</div>
+
+<!-- ==================== ORDER SUCCESS ==================== -->
+<div id="page-order-success" class="page">
+<div class="min-h-screen flex items-center justify-center p-6">
+<div class="max-w-md w-full text-center">
+ <div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl shadow-primary/30" style="animation:fadeUp .6s ease">
+  <span class="text-5xl text-black font-black">✓</span>
+ </div>
+ <h1 class="text-3xl font-black mb-2 animate-fade-up delay-1">Order Reserved!</h1>
+ <p class="text-neutral-400 text-sm mb-8 animate-fade-up delay-2">आपका स्टॉक Pandey Traders पर सुरक्षित कर लिया गया है।</p>
+ <div class="glass-strong rounded-2xl p-6 mb-8 text-left space-y-3 animate-fade-up delay-3">
+  <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-neutral-500"><span>Order ID</span><span class="text-white" id="successOrderId">#---</span></div>
+  <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-neutral-500"><span>Status</span><span class="text-primary">Stock Secured</span></div>
+  <div class="h-px bg-white/5 my-1"></div>
+  <div class="flex justify-between text-xs font-bold uppercase tracking-widest text-neutral-400"><span>Total</span><span class="text-primary text-lg" id="successTotal">₹0</span></div>
+ </div>
+ <div class="space-y-3 animate-fade-up delay-4">
+  <button onclick="navigate('invoice')" class="w-full py-4 btn-primary text-sm rounded-xl flex items-center justify-center gap-2"><span class="material-symbols-outlined">description</span>View Invoice</button>
+  <button onclick="navigate('marketplace')" class="w-full py-4 btn-ghost text-sm rounded-xl">Back to Market</button>
+ </div>
+</div>
+</div>
 </div>
 
 <!-- ==================== INVOICE ==================== -->
-<div id="invoice-page" class="page">
-  <div class="invoice-layout">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
-      <div>
-        <div class="section-title">डिजिटल बिल</div>
-        <div class="section-sub">Smart Invoice — Invoice-Gen.html</div>
-      </div>
-      <button class="btn-primary" onclick="generateNewInvoice()">🔄 नया बिल बनाएं</button>
-    </div>
-
-    <div class="invoice-doc" id="invoice-doc">
-      <div class="invoice-header-band">
-        <div>
-          <div class="inv-shop-name">Pandey Traders 🌾</div>
-          <div class="inv-shop-address">Gonda Mandi, Uttar Pradesh — 271001</div>
-          <div class="inv-shop-address" style="margin-top:4px">📞 +91 94150 00000 · GSTIN: 09ABCDE1234F1Z5</div>
-        </div>
-        <div class="inv-meta">
-          <div class="inv-order-id">Order ID</div>
-          <div class="inv-order-num" id="inv-order-id">JKS-A4F82C1E</div>
-          <div class="inv-date" id="inv-date">13 April 2026</div>
-          <div class="inv-date" style="margin-top:6px;font-size:0.65rem;opacity:0.4">JAYMANI KRISHI SEWA</div>
-        </div>
-      </div>
-
-      <div class="invoice-body">
-        <div class="inv-farmer-row">
-          <div>
-            <div class="inv-farmer-label">किसान का नाम</div>
-            <div class="inv-farmer-name">रामकिशन यादव</div>
-            <div class="inv-farmer-phone">+91 98765 43210 · ग्राम: खलीलाबाद</div>
-          </div>
-          <div style="text-align:right">
-            <div class="inv-farmer-label">विक्रेता</div>
-            <div class="inv-farmer-name">श्री रमेश पांडेय</div>
-            <div class="inv-farmer-phone">Pandey Traders · Gonda</div>
-          </div>
-        </div>
-
-        <table class="inv-items-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>उत्पाद</th>
-              <th>मात्रा</th>
-              <th>दर</th>
-              <th>कुल</th>
-            </tr>
-          </thead>
-          <tbody id="inv-items-body"></tbody>
-        </table>
-
-        <div class="inv-totals">
-          <div class="inv-total-row">
-            <span>उप-कुल</span>
-            <span id="inv-subtotal">₹0</span>
-          </div>
-          <div class="inv-total-row">
-            <span>GST (5%)</span>
-            <span id="inv-gst">₹0</span>
-          </div>
-          <div class="inv-total-row grand">
-            <span>कुल देय राशि</span>
-            <span class="amount" id="inv-total">₹0</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="inv-footer">
-        <div>
-          <span class="inv-payment-status unpaid" id="inv-status">● अदेय (Unpaid)</span>
-          <div style="font-size:0.68rem;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace">
-            भुगतान: नकद / UPI: 9415000000@upi
-          </div>
-        </div>
-        <button class="inv-print-btn" onclick="window.print()">🖨️ प्रिंट करें</button>
-      </div>
-    </div>
-  </div>
+<div id="page-invoice" class="page">
+<div class="min-h-screen p-4 md:p-10 flex items-start justify-center">
+<div class="max-w-2xl w-full bg-white text-black rounded-3xl p-8 md:p-12 shadow-2xl">
+ <div class="flex justify-between items-start border-b border-gray-100 pb-8 mb-8">
+  <div><h1 class="text-2xl font-black text-primary">JAYMANI KRISHI SEWA</h1><p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Digital Order Receipt</p></div>
+  <div class="text-right"><p class="font-bold">Pandey Traders</p><p class="text-xs text-gray-500">Itia Thok, Gonda, UP</p></div>
+ </div>
+ <div class="grid grid-cols-2 gap-8 mb-10 text-sm">
+  <div><p class="text-xs font-bold text-gray-400 uppercase mb-1">Bill To:</p><p class="font-bold" id="invName">-</p><p class="text-gray-500" id="invMobile">-</p></div>
+  <div class="text-right"><p class="text-xs font-bold text-gray-400 uppercase mb-1">Order Date:</p><p class="font-bold" id="invDate">-</p><p class="text-primary font-black">Status: RESERVED</p></div>
+ </div>
+ <table class="w-full mb-10"><thead><tr class="border-b border-gray-100 text-left text-xs font-bold text-gray-400 uppercase"><th class="py-3">Item</th><th class="py-3 text-center">Qty</th><th class="py-3 text-right">Price</th></tr></thead>
+ <tbody id="invBody"></tbody></table>
+ <div class="flex justify-between items-center bg-gray-50 p-6 rounded-2xl"><span class="font-bold uppercase text-xs text-gray-500">Total Payable:</span><span class="text-2xl font-black" id="invTotal">₹0</span></div>
+ <div class="mt-12 flex gap-4 no-print">
+  <button onclick="window.print()" class="flex-1 py-4 bg-black text-white font-bold rounded-2xl text-sm">Print / PDF</button>
+  <button onclick="navigate('orders')" class="flex-1 py-4 border border-gray-200 text-gray-500 font-bold rounded-2xl text-sm">Order History</button>
+ </div>
+ <p class="text-center text-[10px] text-gray-400 mt-8 uppercase tracking-widest">© 2026 Sharda University CSE Dept</p>
+</div>
+</div>
 </div>
 
-<!-- RESERVE MODAL -->
-<div class="modal-overlay" id="reserve-modal">
-  <div class="modal">
-    <div class="modal-title">रिज़र्व करें 🌾</div>
-    <div class="modal-sub" id="reserve-product-name">DAP खाद</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:12px">कितनी मात्रा चाहिए?</div>
-    <input type="number" class="modal-input" id="reserve-qty" value="1" min="1">
-    <div class="modal-buttons">
-      <button class="modal-cancel" onclick="closeModal()">रद्द करें</button>
-      <button class="modal-confirm" onclick="confirmReserve()">✓ रिज़र्व करें</button>
-    </div>
-  </div>
+<!-- ==================== ORDER HISTORY ==================== -->
+<div id="page-orders" class="page">
+<header class="glass-strong sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
+ <div class="flex items-center gap-3">
+  <button onclick="navigate('marketplace')" class="p-2 rounded-xl hover:bg-white/5"><span class="material-symbols-outlined">arrow_back</span></button>
+  <h1 class="text-xl font-black">Order <span class="text-primary">History</span></h1>
+ </div>
+ <button onclick="doLogout()" class="btn-ghost px-4 py-2 rounded-xl text-xs">Logout</button>
+</header>
+<main class="max-w-5xl mx-auto px-6 py-10">
+ <div id="ordersList" class="space-y-5"></div>
+ <div id="ordersEmpty" class="hidden text-center py-20">
+  <span class="material-symbols-outlined text-6xl text-neutral-700 mb-4">history_toggle_off</span>
+  <p class="text-neutral-500 font-bold">No orders yet.</p>
+  <button onclick="navigate('marketplace')" class="mt-4 text-primary font-bold hover:underline text-sm">Browse Marketplace</button>
+ </div>
+</main>
 </div>
 
-<!-- TOAST CONTAINER -->
-<div id="toast-container"></div>
+<!-- ==================== BAHI-KHATA ==================== -->
+<div id="page-bahi-khata" class="page">
+<header class="bg-primary px-6 py-8 shadow-2xl">
+ <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+  <div class="flex items-center gap-4">
+   <div id="bkAvatar" class="w-14 h-14 bg-white text-primary rounded-full flex items-center justify-center text-xl font-black">M</div>
+   <div><h1 id="bkWelcome" class="text-2xl font-black text-white">Namaste</h1><p class="text-white/70 text-sm">Digital Bahi-Khata • Pandey Traders</p></div>
+  </div>
+  <div class="flex gap-3">
+   <button onclick="navigate('marketplace')" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-bold transition flex items-center gap-2"><span class="material-symbols-outlined text-lg">store</span>Market</button>
+   <button onclick="window.print()" class="px-5 py-2.5 bg-white text-primary rounded-xl text-sm font-bold flex items-center gap-2 no-print"><span class="material-symbols-outlined text-lg">print</span>Print</button>
+  </div>
+ </div>
+</header>
+<main class="max-w-7xl mx-auto px-6 -mt-8 pb-20">
+ <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+  <div class="card p-7 border-b-4 border-danger"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-2">Baki Rashi (Due)</p><h3 class="text-3xl font-black text-danger" id="bkDue">₹0</h3></div>
+  <div class="card p-7 border-b-4 border-primary"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-2">Kul Kharid (Paid)</p><h3 class="text-3xl font-black text-primary" id="bkPaid">₹0</h3></div>
+  <div class="card p-7 border-b-4 border-info"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-2">Total Transactions</p><h3 class="text-3xl font-black text-info" id="bkCount">0</h3></div>
+ </div>
+ <div class="card overflow-hidden">
+  <div class="p-6 border-b border-white/5 flex items-center justify-between">
+   <h3 class="text-lg font-black">Khatoni <span class="text-primary">History</span></h3>
+   <span class="flex items-center gap-2 text-xs font-bold text-neutral-500"><span class="status-dot bg-primary animate-pulse"></span>Live Sync</span>
+  </div>
+  <div class="overflow-x-auto">
+   <table class="w-full text-left text-sm">
+    <thead><tr class="bg-white/5 text-[10px] font-black text-neutral-500 uppercase tracking-widest"><th class="p-6">Date</th><th class="p-6">Item</th><th class="p-6">Amount</th><th class="p-6">Status</th><th class="p-6 text-right">Action</th></tr></thead>
+    <tbody id="bkTable"></tbody>
+   </table>
+  </div>
+ </div>
+</main>
+</div>
 
+<!-- ==================== PROFILE ==================== -->
+<div id="page-profile" class="page">
+<header class="glass-strong sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
+ <div class="flex items-center gap-3">
+  <button onclick="navigate('marketplace')" class="p-2 rounded-xl hover:bg-white/5"><span class="material-symbols-outlined">arrow_back</span></button>
+  <h1 class="text-xl font-black">Profile <span class="text-primary">Settings</span></h1>
+ </div>
+</header>
+<main class="max-w-4xl mx-auto px-6 py-10">
+ <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  <div class="md:col-span-1">
+   <div class="glass-strong rounded-3xl p-6 text-center">
+    <div class="relative inline-block">
+     <img id="profPic" src="https://picsum.photos/seed/farmer99/200/200" class="w-28 h-28 rounded-full border-4 border-primary/30 object-cover">
+     <label class="absolute bottom-0 right-0 bg-primary p-2 rounded-full cursor-pointer hover:scale-110 transition"><span class="material-symbols-outlined text-sm text-black">photo_camera</span>
+     <input type="file" class="hidden" accept="image/*" onchange="previewPic(event)"></label>
+    </div>
+    <h3 id="profName" class="mt-4 font-bold text-lg">Farmer</h3>
+    <span class="badge bg-primary/10 text-primary mt-1">Verified</span>
+   </div>
+  </div>
+  <div class="md:col-span-2 space-y-6">
+   <div class="glass-strong rounded-3xl p-8 space-y-5">
+    <h2 class="text-lg font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">person</span>Personal Info</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+     <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Full Name</label>
+     <input type="text" id="profFullName" class="input-field w-full px-4 py-3.5 rounded-xl text-sm"></div>
+     <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Mobile</label>
+     <input type="tel" id="profPhone" class="input-field w-full px-4 py-3.5 rounded-xl text-sm" readonly></div>
+    </div>
+    <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Village Address</label>
+    <textarea id="profAddr" rows="3" class="input-field w-full px-4 py-3.5 rounded-xl text-sm"></textarea></div>
+    <button onclick="saveProfile()" class="w-full py-4 btn-primary text-sm rounded-xl">SAVE CHANGES</button>
+   </div>
+   <div class="glass-strong rounded-3xl p-8 space-y-4">
+    <h2 class="text-lg font-bold flex items-center gap-2 text-danger"><span class="material-symbols-outlined text-danger">dangerous</span>Danger Zone</h2>
+    <p class="text-xs text-neutral-500">Delete your account and all associated data permanently.</p>
+    <button onclick="deleteAccount()" class="px-6 py-3 bg-danger/10 border border-danger/20 text-danger text-xs font-bold rounded-xl hover:bg-danger/20 transition">DELETE ACCOUNT</button>
+   </div>
+  </div>
+ </div>
+</main>
+</div>
+
+<!-- ==================== VENDOR DASHBOARD ==================== -->
+<div id="page-vendor" class="page">
+<div class="flex min-h-screen">
+ <aside class="hidden lg:flex flex-col w-64 bg-[#0a0a0a] border-r border-white/5 sticky top-0 h-screen">
+  <div class="p-6">
+   <div class="flex items-center gap-3 mb-10">
+    <div class="bg-accent-orange p-1.5 rounded-xl text-white shadow-lg"><span class="material-symbols-outlined text-xl">storefront</span></div>
+    <div><h2 class="text-white text-base font-black tracking-tighter leading-none">PANDEY</h2><span class="text-[8px] font-black text-accent-orange uppercase tracking-widest">Traders Portal</span></div>
+   </div>
+   <nav class="space-y-1">
+    <div class="sidebar-link active"><span class="material-symbols-outlined text-lg">dashboard</span>Dashboard</div>
+    <div class="sidebar-link" onclick="navigate('inventory')"><span class="material-symbols-outlined text-lg">inventory_2</span>Manage Stock</div>
+    <div class="sidebar-link" onclick="toast('Order sync active','info')"><span class="material-symbols-outlined text-lg">history</span>Order History</div>
+    <div class="sidebar-link" onclick="toast('Commission: 2% per txn','info')"><span class="material-symbols-outlined text-lg">payments</span>Payments</div>
+   </nav>
+  </div>
+  <div class="mt-auto p-6 border-t border-white/5">
+   <button onclick="doLogout()" class="sidebar-link text-danger hover:bg-danger/5 w-full"><span class="material-symbols-outlined text-lg">logout</span>Logout</button>
+  </div>
+ </aside>
+ <main class="flex-1 p-6 md:p-10">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+   <div><h1 class="text-3xl font-black tracking-tight">Retailer <span class="text-accent-orange">Intelligence</span></h1>
+   <p class="text-neutral-500 text-sm mt-1">Namaste, <span id="vendorGreeting">Sukhdev Pandey</span></p></div>
+   <button onclick="navigate('inventory')" class="px-8 py-4 bg-accent-orange text-white text-xs font-black rounded-xl shadow-lg shadow-accent-orange/20 hover:scale-105 active:scale-95 transition flex items-center gap-2">
+   <span class="material-symbols-outlined">add_box</span>UPDATE STOCK</button>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Revenue</p><h3 class="text-2xl font-black" id="vRevenue">₹0</h3><span class="text-xs text-primary font-bold">↑ Live</span></div>
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Pending</p><h3 class="text-2xl font-black text-accent-orange" id="vPending">0</h3></div>
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Commission</p><h3 class="text-2xl font-black text-danger" id="vComm">₹0</h3><span class="text-[10px] text-neutral-600">2% Fee</span></div>
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Farmers</p><h3 class="text-2xl font-black text-info" id="vFarmers">0</h3></div>
+  </div>
+  <div class="card overflow-hidden">
+   <div class="p-6 border-b border-white/5 flex items-center justify-between"><h3 class="text-lg font-black">Recent <span class="text-accent-orange">Orders</span></h3></div>
+   <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="bg-white/5 text-[10px] font-black text-neutral-500 uppercase tracking-widest"><th class="p-6">Farmer</th><th class="p-6">Product</th><th class="p-6">Qty</th><th class="p-6">Amount</th><th class="p-6">Status</th></tr></thead>
+   <tbody id="vendorOrders"></tbody></table></div>
+  </div>
+ </main>
+</div>
+</div>
+
+<!-- ==================== INVENTORY ==================== -->
+<div id="page-inventory" class="page">
+<header class="glass-strong sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
+ <div class="flex items-center gap-3">
+  <button onclick="navigate('vendor')" class="p-2 rounded-xl hover:bg-white/5"><span class="material-symbols-outlined">arrow_back</span></button>
+  <div><h1 class="text-lg font-black">Manage <span class="text-accent-orange">Inventory</span></h1><p class="text-[9px] font-bold text-neutral-600 uppercase tracking-widest">Pandey Traders</p></div>
+ </div>
+ <span class="badge bg-primary/10 text-primary" id="invTotalBadge">0 Items</span>
+</header>
+<main class="max-w-6xl mx-auto px-6 py-10">
+ <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="lg:col-span-1">
+   <div class="glass-strong rounded-3xl p-7 sticky top-20 space-y-4">
+    <h3 class="text-lg font-black">Add <span class="text-accent-orange">Stock</span></h3>
+    <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Product Name</label>
+    <input type="text" id="invName" placeholder="e.g. IIL Mission" class="input-field w-full px-4 py-3 rounded-xl text-sm"></div>
+    <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Category</label>
+    <select id="invCat" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option value="seed">Seed</option><option value="fertilizer">Fertilizer</option><option value="insecticide">Insecticide</option><option value="equipment">Equipment</option></select></div>
+    <div class="grid grid-cols-2 gap-3">
+     <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Qty</label>
+     <input type="number" id="invQty" placeholder="0" class="input-field w-full px-4 py-3 rounded-xl text-sm"></div>
+     <div><label class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1 block mb-1.5">Price ₹</label>
+     <input type="number" id="invPrice" placeholder="0" class="input-field w-full px-4 py-3 rounded-xl text-sm"></div>
+    </div>
+    <button onclick="addInventory()" class="w-full py-4 bg-accent-orange text-white text-xs font-black rounded-xl shadow-lg shadow-accent-orange/20 hover:brightness-110 active:scale-95 transition">UPDATE INVENTORY</button>
+   </div>
+  </div>
+  <div class="lg:col-span-2"><div id="invList" class="space-y-4"></div></div>
+ </div>
+</main>
+</div>
+
+<!-- ==================== ADMIN PANEL ==================== -->
+<div id="page-admin" class="page">
+<div class="flex min-h-screen">
+ <aside class="hidden lg:flex flex-col w-64 bg-[#0a0a0a] border-r border-white/5 sticky top-0 h-screen">
+  <div class="p-6">
+   <div class="flex items-center gap-3 mb-10">
+    <div class="bg-info p-1.5 rounded-xl text-white shadow-lg"><span class="material-symbols-outlined text-xl">admin_panel_settings</span></div>
+    <div><h2 class="text-white text-base font-black tracking-tighter leading-none">JAYMANI <span class="text-info">PRO</span></h2></div>
+   </div>
+   <nav class="space-y-1">
+    <div class="sidebar-link active" style="background:rgba(59,130,246,.1);color:#3b82f6"><span class="material-symbols-outlined text-lg">dashboard</span>Dashboard</div>
+    <div class="sidebar-link" onclick="toast('User directory loaded','info')"><span class="material-symbols-outlined text-lg">group</span>User Directory</div>
+    <div class="sidebar-link" onclick="toast('Vendor approval queue','info')"><span class="material-symbols-outlined text-lg">store</span>Vendor Approval</div>
+   </nav>
+  </div>
+  <div class="mt-auto p-6 border-t border-white/5">
+   <p class="text-[10px] font-black text-neutral-600 uppercase tracking-widest mb-2">Admin</p>
+   <p class="text-xs font-bold text-white" id="adminName">Manish Pandey</p>
+   <button onclick="doLogout()" class="sidebar-link text-danger hover:bg-danger/5 w-full mt-3"><span class="material-symbols-outlined text-lg">power_settings_new</span>Logout</button>
+  </div>
+ </aside>
+ <main class="flex-1 p-6 md:p-10">
+  <div class="flex items-center justify-between mb-10">
+   <div><h1 class="text-3xl font-black tracking-tight">Control <span class="text-info">Center</span></h1>
+   <p class="text-xs text-neutral-500 mt-1">System: <span class="text-primary font-bold">Operational</span></p></div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Total Users</p><h3 class="text-2xl font-black" id="aUsers">0</h3><span class="text-xs text-primary font-bold">↑ Growing</span></div>
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Vendors</p><h3 class="text-2xl font-black text-accent-orange" id="aVendors">0</h3></div>
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Orders</p><h3 class="text-2xl font-black text-info" id="aOrders">0</h3></div>
+   <div class="card p-7"><p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-3">Revenue</p><h3 class="text-2xl font-black text-primary" id="aRevenue">₹0</h3></div>
+  </div>
+  <div class="card overflow-hidden">
+   <div class="p-6 border-b border-white/5 flex items-center justify-between"><h3 class="text-lg font-black">All <span class="text-info">Users</span></h3>
+   <button onclick="clearAllData()" class="px-4 py-2 bg-danger/10 text-danger text-[10px] font-bold rounded-lg hover:bg-danger/20 transition">RESET DB</button></div>
+   <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="bg-white/5 text-[10px] font-black text-neutral-500 uppercase tracking-widest"><th class="p-6">User</th><th class="p-6">Role</th><th class="p-6">Mobile</th><th class="p-6">Joined</th><th class="p-6 text-right">Action</th></tr></thead>
+   <tbody id="adminUsers"></tbody></table></div>
+  </div>
+ </main>
+</div>
+</div>
+
+<!-- ==================== SUPPORT ==================== -->
+<div id="page-support" class="page">
+<header class="glass-strong sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
+ <div class="flex items-center gap-3">
+  <button onclick="navigate('landing')" class="p-2 rounded-xl hover:bg-white/5"><span class="material-symbols-outlined">arrow_back</span></button>
+  <div><h1 class="text-lg font-black">Sahayata <span class="text-primary">Kendra</span></h1><p class="text-[9px] font-bold text-neutral-600 uppercase tracking-widest">24/7 Support</p></div>
+ </div>
+</header>
+<main class="max-w-5xl mx-auto px-6 py-16">
+ <div class="text-center mb-16">
+  <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4">How can we <span class="text-primary">help?</span></h1>
+  <p class="text-neutral-500">Dedicated support for farmers and retailers.</p>
+ </div>
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+  <div class="card p-10 group">
+   <div class="w-16 h-16 bg-[#25D366]/10 text-[#25D366] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition"><span class="material-symbols-outlined text-4xl">chat</span></div>
+   <h3 class="text-xl font-bold mb-2">WhatsApp</h3>
+   <p class="text-sm text-neutral-500 mb-6">Direct chat with Pandey Traders.</p>
+   <a href="https://wa.me/919876543210" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] text-white font-bold rounded-xl text-sm hover:brightness-110 transition">CHAT NOW</a>
+  </div>
+  <div class="card p-10 group">
+   <div class="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition"><span class="material-symbols-outlined text-4xl">call</span></div>
+   <h3 class="text-xl font-bold mb-2">Helpline</h3>
+   <p class="text-sm text-neutral-500 mb-6">Call us for any issue.</p>
+   <a href="tel:+919876543210" class="inline-flex items-center gap-2 px-8 py-4 btn-primary rounded-xl text-sm">CALL SUPPORT</a>
+  </div>
+ </div>
+ <div class="bg-gradient-to-br from-info to-blue-800 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+  <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
+   <div class="flex-1">
+    <span class="badge bg-white/20 text-white mb-4 inline-block">Offline Mode</span>
+    <h2 class="text-2xl font-black mb-3">SMS Service</h2>
+    <p class="text-white/80 text-sm mb-6">No internet? Text for stock updates.</p>
+    <div class="bg-black/20 backdrop-blur-md rounded-2xl p-5 border border-white/10 font-mono text-sm">
+     <p><span class="text-sky-300">TYPE:</span> STOCK [Product] [PinCode]</p>
+     <p><span class="text-sky-300">EX:</span> STOCK UREA 271001</p>
+     <p><span class="text-sky-300">SEND TO:</span> 1800-XXX-XXXX</p>
+    </div>
+   </div>
+  </div>
+ </div>
+</main>
+</div>
+
+<!-- ==================== DESIGN PROCESS ==================== -->
+<div id="page-design-process" class="page">
+<header class="glass-strong sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
+ <div class="flex items-center gap-3">
+  <button onclick="navigate('landing')" class="p-2 rounded-xl hover:bg-white/5"><span class="material-symbols-outlined">arrow_back</span></button>
+  <div><h1 class="text-lg font-black">Design <span class="text-primary">Process</span></h1><p class="text-[9px] font-bold text-neutral-600 uppercase tracking-widest">DCL Lab Case Study</p></div>
+ </div>
+</header>
+<main class="max-w-4xl mx-auto px-6 py-10 space-y-8">
+ <div class="card p-8">
+  <h2 class="text-xl font-black mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary">favorite</span>1. Empathy Mapping</h2>
+  <p class="text-sm text-neutral-400 leading-relaxed">Humne rural markets ka visit kiya aur paya ki kisanon ka <b class="text-white">30% samay aur fuel</b> sirf stock ki jankari lene mein barbaad ho jata hai.</p>
+ </div>
+ <div class="card p-8">
+  <h2 class="text-xl font-black mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-accent">help</span>2. 5W & 1H Analysis</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+   <div class="bg-white/5 p-4 rounded-xl border border-white/5"><b class="text-primary text-sm">Who?</b><p class="text-xs text-neutral-500 mt-1">Small & marginal farmers</p></div>
+   <div class="bg-white/5 p-4 rounded-xl border border-white/5"><b class="text-primary text-sm">What?</b><p class="text-xs text-neutral-500 mt-1">Information gap in supply & pricing</p></div>
+   <div class="bg-white/5 p-4 rounded-xl border border-white/5"><b class="text-primary text-sm">Where?</b><p class="text-xs text-neutral-500 mt-1">Rural agricultural markets</p></div>
+   <div class="bg-white/5 p-4 rounded-xl border border-white/5"><b class="text-primary text-sm">When?</b><p class="text-xs text-neutral-500 mt-1">Peak sowing seasons</p></div>
+   <div class="bg-white/5 p-4 rounded-xl border border-white/5"><b class="text-primary text-sm">Why?</b><p class="text-xs text-neutral-500 mt-1">Prevent financial loss & crop failure</p></div>
+   <div class="bg-white/5 p-4 rounded-xl border border-white/5"><b class="text-primary text-sm">How?</b><p class="text-xs text-neutral-500 mt-1">Digital marketplace & SMS</p></div>
+  </div>
+ </div>
+ <div class="card p-8">
+  <h2 class="text-xl font-black mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-danger">report_problem</span>3. Problem Statement</h2>
+  <blockquote class="border-l-4 border-accent pl-5 italic text-neutral-300 text-base leading-relaxed">"Farmers lack advance information on stock availability and transparent pricing, leading to significant time and productivity loss."</blockquote>
+ </div>
+ <div class="card p-8">
+  <h2 class="text-xl font-black mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-info">build</span>4. Prototype Steps</h2>
+  <div class="space-y-4 mt-4">
+   <div class="flex items-start gap-4"><div class="w-10 h-10 bg-info/10 text-info rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">1</div><div><b>Ideation:</b><p class="text-sm text-neutral-500">Multi-vendor model including Pandey Traders.</p></div></div>
+   <div class="flex items-start gap-4"><div class="w-10 h-10 bg-info/10 text-info rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">2</div><div><b>Features:</b><p class="text-sm text-neutral-500">SMS-based access for low internet areas.</p></div></div>
+   <div class="flex items-start gap-4"><div class="w-10 h-10 bg-info/10 text-info rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">3</div><div><b>Business Model:</b><p class="text-sm text-neutral-500">Commission-based revenue for sustainability.</p></div></div>
+  </div>
+ </div>
+ <div class="text-center pt-4"><p class="text-[10px] text-neutral-600 uppercase tracking-widest">Team: Manish Pandey & Jayant Raj | Mentor: Ms. Sheenam Naaz</p></div>
+</main>
+</div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
 <script>
-// ========== DATA STORE ==========
-let products = [
-  { id: 1, name: 'DAP खाद', category: 'fertilizer', price: 1350, quantity: 42, unit: 'बैग', threshold: 5, icon: '🌿' },
-  { id: 2, name: 'Urea यूरिया', category: 'fertilizer', price: 267, quantity: 3, unit: 'बैग', threshold: 5, icon: '🧪' },
-  { id: 3, name: 'Rogor कीटनाशक', category: 'pesticide', price: 320, quantity: 18, unit: 'बोतल', threshold: 5, icon: '🪲' },
-  { id: 4, name: 'गेहूं बीज (HD-2967)', category: 'seed', price: 45, quantity: 120, unit: 'kg', threshold: 10, icon: '🌾' },
-  { id: 5, name: 'Monocrotophos', category: 'pesticide', price: 280, quantity: 4, unit: 'बोतल', threshold: 5, icon: '💧' },
-  { id: 6, name: 'MOP पोटाश', category: 'fertilizer', price: 850, quantity: 25, unit: 'बैग', threshold: 5, icon: '⚗️' },
-  { id: 7, name: 'धान बीज (PB-1)', category: 'seed', price: 55, quantity: 0, unit: 'kg', threshold: 10, icon: '🌱' },
-  { id: 8, name: 'खुरपी सेट', category: 'equipment', price: 180, quantity: 12, unit: 'पैकेट', threshold: 3, icon: '⚒️' },
-  { id: 9, name: 'Zinc Sulphate', category: 'fertilizer', price: 60, quantity: 55, unit: 'kg', threshold: 10, icon: '🔬' },
-];
+// ========== DATABASE LAYER (localStorage) ==========
+const DB = {
+ get(key, fallback=[]) { try { return JSON.parse(localStorage.getItem('jk_'+key)) || fallback; } catch { return fallback; } },
+ set(key, val) { localStorage.setItem('jk_'+key, JSON.stringify(val)); },
+ remove(key) { localStorage.removeItem('jk_'+key); }
+};
 
-let ledgerEntries = [
-  { id: 1, type: 'debit', amount: 2700, note: 'Invoice JKS-A1B2C3D4 — DAP खाद 2 बैग + Rogor', date: '10 Apr 2026' },
-  { id: 2, type: 'credit', amount: 1000, note: 'नकद भुगतान — रामकिशन', date: '9 Apr 2026' },
-  { id: 3, type: 'debit', amount: 1350, note: 'Invoice JKS-E5F6G7H8 — DAP खाद 1 बैग', date: '5 Apr 2026' },
-  { id: 4, type: 'credit', amount: 1000, note: 'UPI भुगतान — 98765@upi', date: '3 Apr 2026' },
-  { id: 5, type: 'debit', amount: 800, note: 'Invoice JKS-I9J0K1L2 — बीज + खुरपी', date: '28 Mar 2026' },
-];
-
-let invoiceItems = [
-  { name: 'DAP खाद', qty: 2, unit: 'बैग', rate: 1350 },
-  { name: 'Rogor कीटनाशक', qty: 1, unit: 'बोतल', rate: 320 },
-  { name: 'गेहूं बीज (HD-2967)', qty: 10, unit: 'kg', rate: 45 },
-];
-
-let currentFilter = 'all';
-let reserveProductId = null;
-let reserveProductMax = 0;
-
-// ========== PAGE NAVIGATION ==========
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id + '-page').classList.add('active');
-
-  document.querySelectorAll('.nav-tab').forEach((t, i) => {
-    const pages = ['home','farmer','vendor','khata','invoice'];
-    t.classList.toggle('active', pages[i] === id);
-  });
-
-  document.querySelectorAll('.mobile-nav-btn').forEach((b, i) => {
-    const pages = ['home','farmer','vendor','khata','invoice'];
-    b.classList.toggle('active', pages[i] === id);
-  });
-
-  if (id === 'farmer') renderFarmerProducts();
-  if (id === 'vendor') renderVendorInventory();
-  if (id === 'khata') renderLedger();
-  if (id === 'invoice') renderInvoice();
+// ========== SEED DATA ==========
+function seedData() {
+ if (DB.get('seeded', false)) return;
+ DB.set('users', [
+  {id:'manish',name:'Manish Pandey',mobile:'9876543210',pass:'pandey',role:'admin',aadhaar:'XXXX-XXXX-1234',address:'Sharda University, Greater Noida',joined:'2025-01-15'},
+  {id:'jayant',name:'Jayant Raj',mobile:'9876543211',pass:'raj123',role:'admin',aadhaar:'XXXX-XXXX-5678',address:'Sharda University, Greater Noida',joined:'2025-01-15'},
+  {id:'farmer01',name:'Ram Kumar',mobile:'9876543212',pass:'khet123',role:'farmer',aadhaar:'XXXX-XXXX-9012',address:'Village Rampur, Gonda UP',joined:'2025-02-10'},
+  {id:'pandey_traders',name:'Sukhdev Pandey',mobile:'9876543213',pass:'vendor123',role:'vendor',aadhaar:'XXXX-XXXX-3456',address:'Main Market, Itia Thok, Gonda',joined:'2025-01-20'}
+ ]);
+ DB.set('products', [
+  {id:'p1',name:'IIL Mission',cat:'insecticide',price:549,vendor:'Pandey Traders',desc:'Chlorantraniliprole 18.5% SC - Rice stem borer control',stock:45,icon:'🛡️',rating:4.8},
+  {id:'p2',name:'Urea (IFFCO)',cat:'fertilizer',price:266,vendor:'Pandey Traders',desc:'Nitrogen 46% Prilled - All crops',stock:120,icon:'🌱',rating:4.6},
+  {id:'p3',name:'DAP Fertilizer',cat:'fertilizer',price:1200,vendor:'Pandey Traders',desc:'Di-ammonium Phosphate 18:46:00',stock:2,icon:'🧪',rating:4.7},
+  {id:'p4',name:'Hybrid Wheat Seeds',cat:'seed',price:2200,vendor:'Pandey Traders',desc:'HD-3226 High yield variety, 50kg pack',stock:30,icon:'🌾',rating:4.9},
+  {id:'p5',name:'Neem Oil Spray',cat:'insecticide',price:350,vendor:'Kisan Kendra',desc:'Organic neem-based pesticide, 5L',stock:60,icon:'🌿',rating:4.5},
+  {id:'p6',name:'Aikido Insecticide',cat:'insecticide',price:890,vendor:'Pandey Traders',desc:'Dinotefuran 20% SG - Rice, Cotton',stock:25,icon:'🪲',rating:4.4},
+  {id:'p7',name:'Spray Pump 16L',cat:'equipment',price:1850,vendor:'Pandey Traders',desc:'Heavy duty knapsack sprayer',stock:8,icon:'🔧',rating:4.3},
+  {id:'p8',name:'Basmati Rice Seeds',cat:'seed',price:3200,vendor:'Pandey Traders',desc:'Pusa Basmati 1121, premium grade',stock:15,icon:'🍚',rating:4.9}
+ ]);
+ DB.set('orders', []);
+ DB.set('transactions', [
+  {userId:'farmer01',item:'Urea (IFFCO)',amount:266,date:'2026-01-28',status:'paid'},
+  {userId:'farmer01',item:'Neem Oil Spray',amount:1750,date:'2026-02-05',status:'paid'},
+  {userId:'farmer01',item:'DAP Fertilizer',amount:2400,date:'2026-02-10',status:'due'},
+  {userId:'farmer01',item:'IIL Mission',amount:1850,date:'2026-02-15',status:'due'}
+ ]);
+ DB.set('inventory', [
+  {name:'IIL Mission',cat:'insecticide',qty:45,price:549},
+  {name:'DAP Fertilizer',cat:'fertilizer',qty:2,price:1200},
+  {name:'Urea (IFFCO)',cat:'fertilizer',qty:120,price:266}
+ ]);
+ DB.set('seeded', true);
 }
 
-// ========== FARMER MARKETPLACE ==========
-function getCategoryIcon(cat) {
-  const icons = { fertilizer:'🌿', pesticide:'🪲', seed:'🌱', equipment:'⚒️' };
-  return icons[cat] || '📦';
+// ========== STATE ==========
+let currentUser = null;
+let cart = [];
+let loginRole = 'farmer';
+let regRole = 'farmer';
+let currentCat = '';
+
+// ========== TOAST ==========
+function toast(msg, type='success') {
+ const c = document.getElementById('toastContainer');
+ const t = document.createElement('div');
+ t.className = `toast toast-${type}`;
+ const icons = {success:'check_circle',error:'error',info:'info'};
+ t.innerHTML = `<span class="material-symbols-outlined text-lg">${icons[type]||'info'}</span>${msg}`;
+ c.appendChild(t);
+ setTimeout(()=>{t.style.animation='slideOutRight .4s ease forwards';setTimeout(()=>t.remove(),400)},3000);
 }
 
-function renderFarmerProducts() {
-  const grid = document.getElementById('products-grid');
-  const query = document.getElementById('search-input').value.toLowerCase();
-
-  const filtered = products.filter(p => {
-    const matchCat = currentFilter === 'all' || p.category === currentFilter;
-    const matchSearch = p.name.toLowerCase().includes(query);
-    return matchCat && matchSearch;
-  });
-
-  if (!filtered.length) {
-    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🌾</div><p>कोई उत्पाद नहीं मिला</p></div>';
-    return;
-  }
-
-  grid.innerHTML = filtered.map((p, i) => {
-    const isLow = p.quantity > 0 && p.quantity <= p.threshold;
-    const isOut = p.quantity === 0;
-    const pct = Math.min(100, (p.quantity / (p.threshold * 5)) * 100);
-    const barColor = isOut ? '#c0392b' : isLow ? '#e74c3c' : '#3a6b35';
-
-    let tag = '';
-    if (isOut) tag = '<span class="product-tag out">स्टॉक खत्म</span>';
-    else if (isLow) tag = '<span class="product-tag low">⚠ कम स्टॉक</span>';
-    else tag = '<span class="product-tag fresh">उपलब्ध ✓</span>';
-
-    return `
-      <div class="product-card ${isLow || isOut ? 'low-stock' : ''}" style="animation-delay:${i * 0.06}s">
-        ${tag}
-        <div class="product-card-icon">${p.icon || getCategoryIcon(p.category)}</div>
-        <div class="product-name">${p.name}</div>
-        <div class="product-category">${p.category}</div>
-        <div class="product-stats">
-          <div class="product-price">₹${p.price.toLocaleString('en-IN')}<span>/${p.unit}</span></div>
-          <div class="product-qty ${isLow || isOut ? 'low' : ''}">${p.quantity} ${p.unit}</div>
-        </div>
-        <div class="qty-bar">
-          <div class="qty-fill" style="width:${pct}%;background:${barColor}"></div>
-        </div>
-        <button class="reserve-btn" ${isOut ? 'disabled' : ''} onclick="openReserve(${p.id}, '${p.name}', ${p.quantity})">
-          ${isOut ? 'उपलब्ध नहीं' : '🛒 रिज़र्व करें'}
-        </button>
-      </div>
-    `;
-  }).join('');
+// ========== NAVIGATION ==========
+function navigate(page) {
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ const el = document.getElementById('page-'+page);
+ if(el) { el.classList.add('active'); window.scrollTo(0,0); }
+ // Page-specific rendering
+ if(page==='marketplace') renderMarketplace();
+ if(page==='orders') renderOrders();
+ if(page==='bahi-khata') renderBahiKhata();
+ if(page==='profile') renderProfile();
+ if(page==='vendor') renderVendor();
+ if(page==='inventory') renderInventory();
+ if(page==='admin') renderAdmin();
+ if(page==='invoice') renderInvoice();
 }
 
-function setFilter(el, cat) {
-  currentFilter = cat;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderFarmerProducts();
+// ========== AUTH ==========
+function setLoginRole(r) {
+ loginRole = r;
+ document.querySelectorAll('.ltab').forEach(b=>{b.classList.remove('bg-primary','text-black');b.classList.add('text-neutral-500')});
+ document.getElementById('ltab-'+r).classList.add('bg-primary','text-black');
+ document.getElementById('ltab-'+r).classList.remove('text-neutral-500');
+ document.getElementById('loginRoleText').textContent = r.toUpperCase()+' ACCESS';
+ document.getElementById('loginError').classList.add('hidden');
+}
+function setRegRole(r) {
+ regRole = r;
+ document.querySelectorAll('.rtab').forEach(b=>{b.classList.remove('bg-primary','text-black');b.classList.add('text-neutral-500')});
+ document.getElementById('rtab-'+r).classList.add('bg-primary','text-black');
+ document.getElementById('rtab-'+r).classList.remove('text-neutral-500');
+}
+function doRegister(e) {
+ e.preventDefault();
+ const name=document.getElementById('regName').value.trim();
+ const mobile=document.getElementById('regMobile').value.trim();
+ const pass=document.getElementById('regPass').value;
+ const aadhaar=document.getElementById('regAadhaar').value.trim();
+ if(!name||!mobile||!pass){toast('Please fill all fields','error');return}
+ let users=DB.get('users');
+ if(users.find(u=>u.mobile===mobile)){toast('Mobile already registered','error');return}
+ const user={id:mobile,name,mobile,pass,role:regRole,aadhaar,address:'',joined:new Date().toISOString().split('T')[0]};
+ users.push(user);
+ DB.set('users',users);
+ toast('Registration successful! Please sign in.','success');
+ document.getElementById('regForm').reset();
+ setTimeout(()=>navigate('login'),800);
+}
+function doLogin() {
+ const id=document.getElementById('loginId').value.trim().toLowerCase();
+ const pass=document.getElementById('loginPass').value;
+ let users=DB.get('users');
+ const user=users.find(u=>(u.id===id||u.mobile===id)&&u.pass===pass);
+ if(!user){document.getElementById('loginError').classList.remove('hidden');return}
+ // Role check
+ if(loginRole==='admin'&&user.role!=='admin'){toast('Not an admin account','error');return}
+ if(loginRole==='vendor'&&user.role!=='vendor'){toast('Not a vendor account','error');return}
+ if(loginRole==='farmer'&&user.role!=='farmer'){toast('Not a farmer account','error');return}
+ currentUser=user;
+ sessionStorage.setItem('jk_session',JSON.stringify(user));
+ cart=[];
+ document.getElementById('loginError').classList.add('hidden');
+ document.getElementById('loginId').value='';
+ document.getElementById('loginPass').value='';
+ toast(`Welcome, ${user.name}!`,'success');
+ // Voice welcome
+ speakHindi(`नमस्ते ${user.name}! जयमानी कृषि सेवा में आपका स्वागत है।`,()=>{
+  if(user.role==='admin') navigate('admin');
+  else if(user.role==='vendor') navigate('vendor');
+  else navigate('marketplace');
+ });
+}
+function doLogout() {
+ currentUser=null;
+ sessionStorage.removeItem('jk_session');
+ cart=[];
+ toast('Logged out','info');
+ navigate('landing');
+}
+function speakHindi(text,cb) {
+ if('speechSynthesis' in window) {
+  speechSynthesis.cancel();
+  const m=new SpeechSynthesisUtterance(text);m.lang='hi-IN';m.rate=0.9;
+  m.onend=cb||function(){};
+  speechSynthesis.speak(m);
+ } else { if(cb)cb(); }
+}
+function checkSession() {
+ const s=sessionStorage.getItem('jk_session');
+ if(s){currentUser=JSON.parse(s);return true;}
+ return false;
 }
 
-function filterProducts() { renderFarmerProducts(); }
-
-// ========== RESERVE MODAL ==========
-function openReserve(id, name, maxQty) {
-  reserveProductId = id;
-  reserveProductMax = maxQty;
-  document.getElementById('reserve-product-name').textContent = name;
-  document.getElementById('reserve-qty').value = 1;
-  document.getElementById('reserve-qty').max = maxQty;
-  document.getElementById('reserve-modal').classList.add('open');
+// ========== MARKETPLACE ==========
+function renderMarketplace() {
+ if(!checkSession()){navigate('login');return}
+ const u=currentUser;
+ document.getElementById('mpAvatar').textContent=u.name.charAt(0).toUpperCase();
+ document.getElementById('mpUser').textContent=u.name.split(' ')[0];
+ document.getElementById('cartCount').textContent=cart.length;
+ renderProducts(DB.get('products'));
 }
-
-function closeModal() {
-  document.getElementById('reserve-modal').classList.remove('open');
-}
-
-function confirmReserve() {
-  const qty = parseInt(document.getElementById('reserve-qty').value);
-  if (!qty || qty < 1 || qty > reserveProductMax) {
-    showToast('⚠️', 'गलत मात्रा', 'कृपया सही मात्रा डालें');
-    return;
-  }
-
-  const p = products.find(x => x.id === reserveProductId);
-  if (p) {
-    p.quantity -= qty;
-    closeModal();
-    showToast('✅', 'रिज़र्वेशन हो गया!', `${p.name} — ${qty} ${p.unit} रिज़र्व किया गया`);
-    renderFarmerProducts();
-
-    // Simulate vendor getting order notification
-    setTimeout(() => {
-      showToast('🏪', 'नया ऑर्डर!', `${p.name} के लिए ${qty} ${p.unit} की मांग आई`);
-    }, 2000);
-
-    // Check low stock after reserve
-    if (p.quantity > 0 && p.quantity <= p.threshold) {
-      setTimeout(() => {
-        showToast('⚠️', 'कम स्टॉक चेतावनी', `${p.name} — केवल ${p.quantity} ${p.unit} बचा`);
-      }, 4000);
-    }
-  }
-}
-
-// ========== VENDOR DASHBOARD ==========
-function renderVendorInventory() {
-  const tbody = document.getElementById('vendor-inventory-body');
-  const alerts = document.getElementById('low-stock-alerts');
-
-  const lowItems = products.filter(p => p.quantity <= p.threshold && p.quantity > 0);
-  const outItems = products.filter(p => p.quantity === 0);
-
-  alerts.innerHTML = [...outItems, ...lowItems.slice(0, 3)].map(p =>
-    `<div class="sidebar-alert-item">⚠ ${p.name} — ${p.quantity} ${p.unit}</div>`
-  ).join('') || '<div class="sidebar-alert-item" style="color:rgba(255,255,255,0.4)">कोई अलर्ट नहीं</div>';
-
-  tbody.innerHTML = products.map(p => {
-    const isLow = p.quantity > 0 && p.quantity <= p.threshold;
-    const isOut = p.quantity === 0;
-    let statusClass = isOut ? 'out' : isLow ? 'low' : 'ok';
-    let statusText = isOut ? 'खत्म' : isLow ? 'कम' : 'उपलब्ध';
-
-    return `
-      <tr>
-        <td>
-          <div style="font-weight:600;color:var(--earth)">${p.icon || '📦'} ${p.name}</div>
-        </td>
-        <td style="font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--muted)">${p.category}</td>
-        <td style="font-weight:600;color:var(--leaf)">₹${p.price.toLocaleString('en-IN')}</td>
-        <td>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="updateVendorQty(${p.id}, -1)">−</button>
-            <span class="qty-display ${isLow || isOut ? 'low' : ''}">${p.quantity}</span>
-            <button class="qty-btn" onclick="updateVendorQty(${p.id}, 1)">+</button>
-            <span style="font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace">${p.unit}</span>
-          </div>
-        </td>
-        <td><span class="status-pill ${statusClass}">${statusText}</span></td>
-      </tr>
-    `;
-  }).join('');
-
-  document.getElementById('total-products-count').textContent = products.length;
-}
-
-function updateVendorQty(id, delta) {
-  const p = products.find(x => x.id === id);
-  if (p) {
-    const oldQty = p.quantity;
-    p.quantity = Math.max(0, p.quantity + delta);
-    renderVendorInventory();
-
-    if (delta > 0 && oldQty === 0) {
-      showToast('🌾', 'स्टॉक अपडेट!', `${p.name} अब उपलब्ध है — किसानों को सूचित किया`);
-    } else if (p.quantity <= p.threshold && p.quantity > 0) {
-      showToast('⚠️', 'कम स्टॉक', `${p.name} — केवल ${p.quantity} ${p.unit}`);
-    }
-  }
-}
-
-function addProduct() {
-  const name = document.getElementById('v-name').value.trim();
-  const category = document.getElementById('v-category').value;
-  const price = parseFloat(document.getElementById('v-price').value);
-  const qty = parseInt(document.getElementById('v-qty').value);
-  const unit = document.getElementById('v-unit').value;
-  const threshold = parseInt(document.getElementById('v-threshold').value) || 5;
-
-  if (!name || !price || !qty) {
-    showToast('⚠️', 'जानकारी अधूरी है', 'सभी जरूरी फ़ील्ड भरें');
-    return;
-  }
-
-  const icons = { fertilizer:'🌿', pesticide:'🪲', seed:'🌱', equipment:'⚒️' };
-  const newProduct = {
-    id: Date.now(),
-    name, category, price, quantity: qty, unit, threshold,
-    icon: icons[category] || '📦'
-  };
-
-  products.unshift(newProduct);
-  renderVendorInventory();
-
-  // Clear form
-  ['v-name','v-price','v-qty'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('v-threshold').value = 5;
-
-  showToast('🌾', 'नया स्टॉक जोड़ा!', `${name} — ${qty} ${unit} उपलब्ध है। किसानों को सूचित किया गया।`);
-
-  // Simulate farmer getting notification
-  setTimeout(() => {
-    showToast('📢', 'किसानों को सूचना भेजी!', `${name} अब Pandey Traders पर उपलब्ध है`);
-  }, 1500);
-}
-
-// ========== LEDGER / BAHI-KHATA ==========
-function renderLedger() {
-  const container = document.getElementById('ledger-entries');
-  container.innerHTML = ledgerEntries.map((e, i) => `
-    <div class="ledger-entry" style="animation-delay:${i * 0.07}s">
-      <div class="ledger-icon ${e.type}">${e.type === 'debit' ? '🔴' : '🟢'}</div>
-      <div class="ledger-info">
-        <div class="ledger-note">${e.note}</div>
-        <div class="ledger-date">${e.date}</div>
-      </div>
-      <div class="ledger-amount ${e.type}">
-        ${e.type === 'debit' ? '-' : '+'}₹${e.amount.toLocaleString('en-IN')}
-      </div>
+function renderProducts(products) {
+ const grid=document.getElementById('productsGrid');
+ const filtered=currentCat?products.filter(p=>p.cat===currentCat):products;
+ grid.innerHTML=filtered.map(p=>`
+  <div class="card overflow-hidden product-card" data-cat="${p.cat}" data-search="${p.name} ${p.cat} ${p.vendor}">
+   <div class="h-48 bg-white/5 rounded-t-[1.5rem] flex items-center justify-center relative">
+    <span class="text-6xl">${p.icon}</span>
+    <div class="absolute bottom-4 right-4 bg-primary text-black px-4 py-2 rounded-xl font-black text-sm">₹${p.price}</div>
+    ${p.stock<=5?'<div class="absolute top-4 left-4 badge bg-danger/20 text-danger">Low Stock</div>':''}
+   </div>
+   <div class="p-5">
+    <h3 class="text-base font-bold">${p.name}</h3>
+    <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mt-1">${p.cat}</p>
+    <p class="text-xs text-neutral-600 mt-2 line-clamp-2">${p.desc}</p>
+    <div class="flex items-center gap-2 mt-3 text-[11px] font-bold text-neutral-500">
+     <span class="status-dot bg-primary"></span>${p.vendor} • ⭐ ${p.rating}
     </div>
-  `).join('');
+    <div class="flex gap-2 mt-4">
+     <button onclick="addToCart('${p.id}')" class="flex-1 py-3 btn-primary text-xs rounded-xl">ADD TO CART</button>
+     <button onclick="viewProduct('${p.id}')" class="px-3 py-3 btn-ghost rounded-xl"><span class="material-symbols-outlined text-lg">visibility</span></button>
+    </div>
+   </div>
+  </div>
+ `).join('');
+ if(!filtered.length) grid.innerHTML='<p class="text-neutral-600 text-center col-span-full py-20">No products found.</p>';
+}
+function addToCart(pid) {
+ const products=DB.get('products');
+ const p=products.find(x=>x.id===pid);
+ if(!p) return;
+ cart.push({id:p.id,name:p.name,price:p.price,icon:p.icon});
+ document.getElementById('cartCount').textContent=cart.length;
+ toast(`${p.name} added to cart`,'success');
+}
+function viewProduct(pid) {
+ const products=DB.get('products');
+ const p=products.find(x=>x.id===pid);
+ if(!p) return;
+ sessionStorage.setItem('jk_viewProduct',JSON.stringify(p));
+ // Navigate to a simple product view (inline)
+ toast(`Viewing: ${p.name}`,'info');
+}
+function filterCat(cat) {
+ currentCat=cat;
+ document.querySelectorAll('.cat-btn').forEach(b=>{b.classList.remove('bg-primary/10','text-primary');b.classList.add('text-neutral-500')});
+ event.target.classList.add('bg-primary/10','text-primary');
+ event.target.classList.remove('text-neutral-500');
+ renderProducts(DB.get('products'));
+}
+function filterProducts() {
+ const q=document.getElementById('searchInput').value.toLowerCase();
+ const products=DB.get('products');
+ const filtered=products.filter(p=>`${p.name} ${p.cat} ${p.vendor} ${p.desc}`.toLowerCase().includes(q));
+ renderProducts(filtered);
 }
 
-function addKhataEntry(type) {
-  const amount = parseInt(prompt(type === 'credit' ? 'भुगतान राशि दर्ज करें (₹):' : 'उधार राशि दर्ज करें (₹):') || 0);
-  if (!amount || amount <= 0) return;
-
-  ledgerEntries.unshift({
-    id: Date.now(),
-    type,
-    amount,
-    note: type === 'credit' ? 'नकद / UPI भुगतान — रामकिशन' : 'नया उधार',
-    date: '13 Apr 2026'
-  });
-
-  renderLedger();
-  showToast(type === 'credit' ? '💚' : '📒', type === 'credit' ? 'भुगतान दर्ज' : 'उधार दर्ज', `₹${amount.toLocaleString('en-IN')} ${type === 'credit' ? 'जमा' : 'उधार'} किया गया`);
+// ========== CART ==========
+function toggleCart() {
+ const sb=document.getElementById('cartSidebar');
+ sb.classList.toggle('hidden');
+ renderCart();
 }
+function renderCart() {
+ const list=document.getElementById('cartItems');
+ const total=cart.reduce((s,i)=>s+i.price,0);
+ document.getElementById('cartTotal').textContent='₹'+total.toLocaleString();
+ if(!cart.length){list.innerHTML='<p class="text-neutral-600 text-sm text-center py-20">Cart is empty.</p>';return}
+ list.innerHTML=cart.map((item,i)=>`
+  <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+   <div class="flex items-center gap-3"><span class="text-2xl">${item.icon||'📦'}</span><div><p class="font-bold text-sm">${item.name}</p><p class="text-xs text-primary font-bold">₹${item.price}</p></div></div>
+   <button onclick="removeFromCart(${i})" class="text-danger hover:bg-danger/10 p-2 rounded-lg transition"><span class="material-symbols-outlined text-lg">delete</span></button>
+  </div>
+ `).join('');
+}
+function removeFromCart(i) { cart.splice(i,1); document.getElementById('cartCount').textContent=cart.length; renderCart(); }
+
+// ========== CHECKOUT ==========
+function checkout() {
+ if(!cart.length){toast('Cart is empty','error');return}
+ if(!currentUser){navigate('login');return}
+ const orderId='JMS-'+Math.floor(1000+Math.random()*9000);
+ const order={
+  id:orderId,userId:currentUser.id,userName:currentUser.name,userMobile:currentUser.mobile,
+  items:[...cart],total:cart.reduce((s,i)=>s+i.price,0),
+  date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+  status:'reserved',timestamp:Date.now()
+ };
+ let orders=DB.get('orders'); orders.unshift(order); DB.set('orders',orders);
+ // Add to transactions (due)
+ cart.forEach(item=>{
+  let txns=DB.get('transactions');
+  txns.push({userId:currentUser.id,item:item.name,amount:item.price,date:order.date,status:'due'});
+  DB.set('transactions',txns);
+ });
+ // Store latest order for invoice
+ sessionStorage.setItem('jk_latestOrder',JSON.stringify(order));
+ toggleCart();
+ cart=[];
+ toast('Order reserved successfully!','success');
+ speakHindi('बधाई हो! आपका ऑर्डर सफलतापूर्वक रिज़र्व हो गया है।',()=>{
+  navigate('order-success');
+ });
+}
+
+// ========== ORDER SUCCESS ==========
+// Rendered on navigate
+const origNavigate = navigate;
+// Patch: render success page data after navigation
+const _nav = navigate;
 
 // ========== INVOICE ==========
 function renderInvoice() {
-  const tbody = document.getElementById('inv-items-body');
-  let subtotal = 0;
-
-  tbody.innerHTML = invoiceItems.map((item, i) => {
-    const total = item.qty * item.rate;
-    subtotal += total;
-    return `
-      <tr>
-        <td style="color:var(--muted);font-family:'DM Mono',monospace">${i+1}</td>
-        <td style="font-weight:600">${item.name}</td>
-        <td style="font-family:'DM Mono',monospace">${item.qty} ${item.unit}</td>
-        <td style="font-family:'DM Mono',monospace">₹${item.rate.toLocaleString('en-IN')}</td>
-        <td>₹${total.toLocaleString('en-IN')}</td>
-      </tr>
-    `;
-  }).join('');
-
-  const gst = Math.round(subtotal * 0.05);
-  const total = subtotal + gst;
-
-  document.getElementById('inv-subtotal').textContent = '₹' + subtotal.toLocaleString('en-IN');
-  document.getElementById('inv-gst').textContent = '₹' + gst.toLocaleString('en-IN');
-  document.getElementById('inv-total').textContent = '₹' + total.toLocaleString('en-IN');
-
-  const d = new Date();
-  document.getElementById('inv-date').textContent = d.toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'});
+ const order = JSON.parse(sessionStorage.getItem('jk_latestOrder')||'null');
+ if(!order) { document.getElementById('invBody').innerHTML='<tr><td colspan="3" class="p-8 text-center text-gray-400">No order found</td></tr>'; return; }
+ document.getElementById('invName').textContent=order.userName;
+ document.getElementById('invMobile').textContent=order.userMobile;
+ document.getElementById('invDate').textContent=order.date;
+ document.getElementById('invTotal').textContent='₹'+order.total.toLocaleString();
+ document.getElementById('invBody').innerHTML=order.items.map(i=>`
+  <tr class="border-b border-gray-50"><td class="py-4 font-medium">${i.name}</td><td class="py-4 text-center">1</td><td class="py-4 text-right font-bold">₹${i.price.toLocaleString()}</td></tr>
+ `).join('');
 }
 
-function generateNewInvoice() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  const id = Array.from({length:8}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
-  document.getElementById('inv-order-id').textContent = 'JKS-' + id;
-
-  // Randomly pick some products
-  const sample = [...products].filter(p => p.quantity > 0).sort(() => Math.random() - 0.5).slice(0, 3);
-  invoiceItems = sample.map(p => ({
-    name: p.name,
-    qty: Math.min(3, p.quantity),
-    unit: p.unit,
-    rate: p.price
-  }));
-
-  document.getElementById('inv-status').className = 'inv-payment-status unpaid';
-  document.getElementById('inv-status').textContent = '● अदेय (Unpaid)';
-  renderInvoice();
-  showToast('🧾', 'नया बिल बना!', 'Order ID: JKS-' + id);
-}
-
-// ========== TOAST SYSTEM ==========
-function showToast(emoji, title, body) {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `
-    <span class="toast-emoji">${emoji}</span>
-    <div>
-      <div class="toast-title">${title}</div>
-      <div class="toast-body">${body}</div>
+// ========== ORDER HISTORY ==========
+function renderOrders() {
+ if(!checkSession()){navigate('login');return}
+ const orders=DB.get('orders').filter(o=>o.userId===currentUser.id);
+ const list=document.getElementById('ordersList');
+ const empty=document.getElementById('ordersEmpty');
+ if(!orders.length){list.innerHTML='';empty.classList.remove('hidden');return}
+ empty.classList.add('hidden');
+ list.innerHTML=orders.map(o=>`
+  <div class="card p-6 md:p-8">
+   <div class="flex flex-wrap justify-between items-start gap-4">
+    <div class="space-y-2">
+     <div class="flex items-center gap-3">
+      <span class="text-xs font-bold text-neutral-500 uppercase tracking-widest">#${o.id}</span>
+      <span class="badge ${o.status==='reserved'?'bg-accent/10 text-accent':'bg-primary/10 text-primary'}">${o.status}</span>
+     </div>
+     <h2 class="text-lg font-bold">${o.items.map(i=>i.name).join(', ')}</h2>
+     <p class="text-sm text-neutral-500">Vendor: <span class="text-primary font-bold">Pandey Traders</span></p>
     </div>
-    <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-  `;
-  container.appendChild(toast);
-  setTimeout(() => toast.remove(), 5000);
+    <div class="text-right">
+     <p class="text-2xl font-black">₹${o.total.toLocaleString()}</p>
+     <p class="text-[10px] text-neutral-600 font-bold uppercase">${o.date}</p>
+    </div>
+   </div>
+   <div class="mt-4 pt-4 border-t border-white/5 flex justify-end">
+    <button onclick='sessionStorage.setItem("jk_latestOrder",JSON.stringify(${JSON.stringify(o).replace(/'/g,"&#39;")}));navigate("invoice")' class="px-5 py-2 btn-ghost text-xs rounded-xl">View Invoice</button>
+   </div>
+  </div>
+ `).join('');
+}
+
+// ========== BAHI-KHATA ==========
+function renderBahiKhata() {
+ if(!checkSession()){navigate('login');return}
+ const u=currentUser;
+ document.getElementById('bkAvatar').textContent=u.name.charAt(0).toUpperCase();
+ document.getElementById('bkWelcome').textContent='Namaste, '+u.name.split(' ')[0];
+ const txns=DB.get('transactions').filter(t=>t.userId===u.id);
+ const due=txns.filter(t=>t.status==='due').reduce((s,t)=>s+t.amount,0);
+ const paid=txns.filter(t=>t.status==='paid').reduce((s,t)=>s+t.amount,0);
+ document.getElementById('bkDue').textContent='₹'+due.toLocaleString();
+ document.getElementById('bkPaid').textContent='₹'+paid.toLocaleString();
+ document.getElementById('bkCount').textContent=txns.length;
+ const table=document.getElementById('bkTable');
+ if(!txns.length){table.innerHTML='<tr><td colspan="5" class="p-8 text-center text-neutral-600">No transactions</td></tr>';return}
+ table.innerHTML=txns.map((t,i)=>`
+  <tr class="table-row ${t.status==='paid'?'opacity-60':''}">
+   <td class="p-6 font-bold text-sm">${t.date}</td>
+   <td class="p-6"><p class="font-bold ${t.status==='paid'?'line-through text-neutral-600':''}">${t.item}</p></td>
+   <td class="p-6 font-black ${t.status==='due'?'text-danger':'text-primary'}">₹${t.amount.toLocaleString()}</td>
+   <td class="p-6">${t.status==='due'?'<span class="badge bg-danger/10 text-danger">Udhaar</span>':'<span class="badge bg-primary/10 text-primary flex items-center gap-1"><span class="material-symbols-outlined text-xs filled">verified</span>Paid</span>'}</td>
+   <td class="p-6 text-right">${t.status==='due'?`<button onclick="markPaid(${i})" class="px-5 py-2.5 btn-primary text-[10px] rounded-xl">PAY NOW</button>`:'<span class="material-symbols-outlined text-primary">check_circle</span>'}</td>
+  </tr>
+ `).join('');
+}
+function markPaid(idx) {
+ let txns=DB.get('transactions').filter(t=>t.userId===currentUser.id);
+ txns[idx].status='paid';
+ let allTxns=DB.get('transactions');
+ allTxns=allTxns.map(t=>{if(t.userId===currentUser.id&&t.item===txns[idx].item&&t.date===txns[idx].date)t.status='paid';return t});
+ DB.set('transactions',allTxns);
+ toast('Payment recorded!','success');
+ renderBahiKhata();
+}
+
+// ========== PROFILE ==========
+function renderProfile() {
+ if(!checkSession()){navigate('login');return}
+ const u=currentUser;
+ document.getElementById('profName').textContent=u.name;
+ document.getElementById('profFullName').value=u.name;
+ document.getElementById('profPhone').value=u.mobile;
+ document.getElementById('profAddr').value=u.address||'';
+}
+function saveProfile() {
+ const name=document.getElementById('profFullName').value.trim();
+ const addr=document.getElementById('profAddr').value.trim();
+ if(!name){toast('Name is required','error');return}
+ let users=DB.get('users');
+ const idx=users.findIndex(u=>u.id===currentUser.id);
+ if(idx>-1){users[idx].name=name;users[idx].address=addr;DB.set('users',users);currentUser=users[idx];sessionStorage.setItem('jk_session',JSON.stringify(currentUser));}
+ toast('Profile updated!','success');
+ renderProfile();
+}
+function previewPic(e) {
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();r.onload=ev=>document.getElementById('profPic').src=ev.target.result;r.readAsDataURL(f);
+}
+function deleteAccount() {
+ if(!confirm('Are you sure? This will delete all your data.'))return;
+ let users=DB.get('users').filter(u=>u.id!==currentUser.id);
+ DB.set('users',users);
+ let orders=DB.get('orders').filter(o=>o.userId!==currentUser.id);
+ DB.set('orders',orders);
+ let txns=DB.get('transactions').filter(t=>t.userId!==currentUser.id);
+ DB.set('transactions',txns);
+ toast('Account deleted','info');
+ doLogout();
+}
+
+// ========== VENDOR DASHBOARD ==========
+function renderVendor() {
+ if(!checkSession()){navigate('login');return}
+ document.getElementById('vendorGreeting').textContent=currentUser.name;
+ const orders=DB.get('orders');
+ const allUsers=DB.get('users');
+ const revenue=orders.reduce((s,o)=>s+o.total,0);
+ const pending=orders.filter(o=>o.status==='reserved').length;
+ const comm=Math.round(revenue*0.02);
+ const farmers=allUsers.filter(u=>u.role==='farmer').length;
+ document.getElementById('vRevenue').textContent='₹'+revenue.toLocaleString();
+ document.getElementById('vPending').textContent=pending;
+ document.getElementById('vComm').textContent='₹'+comm.toLocaleString();
+ document.getElementById('vFarmers').textContent=farmers;
+ const tbody=document.getElementById('vendorOrders');
+ if(!orders.length){tbody.innerHTML='<tr><td colspan="5" class="p-8 text-center text-neutral-600">No orders yet</td></tr>';return}
+ tbody.innerHTML=orders.slice(0,10).map(o=>`
+  <tr class="table-row">
+   <td class="p-6 font-bold"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-accent-orange/10 text-accent-orange flex items-center justify-center text-xs font-bold">${o.userName.charAt(0)}</div>${o.userName}</div></td>
+   <td class="p-6">${o.items.map(i=>i.name).join(', ')}</td>
+   <td class="p-6">${o.items.length}</td>
+   <td class="p-6 font-bold">₹${o.total.toLocaleString()}</td>
+   <td class="p-6"><span class="badge ${o.status==='reserved'?'bg-accent/10 text-accent':'bg-primary/10 text-primary'}">${o.status}</span></td>
+  </tr>
+ `).join('');
+}
+
+// ========== INVENTORY ==========
+function renderInventory() {
+ if(!checkSession()){navigate('login');return}
+ const inv=DB.get('inventory');
+ document.getElementById('invTotalBadge').textContent=inv.length+' Items';
+ const list=document.getElementById('invList');
+ list.innerHTML=inv.map((item,i)=>{
+  const low=item.qty<=5;
+  return `<div class="card p-5 flex items-center justify-between ${low?'border-l-4 border-danger':''}">
+   <div class="flex items-center gap-4">
+    <div class="w-12 h-12 ${low?'bg-danger/10 text-danger':'bg-accent-orange/10 text-accent-orange'} rounded-xl flex items-center justify-center"><span class="material-symbols-outlined text-2xl">${low?'warning':'inventory_2'}</span></div>
+    <div><h4 class="font-bold">${item.name}</h4><p class="text-[10px] font-bold ${low?'text-danger':'text-neutral-500'} uppercase tracking-widest">${item.cat} • ₹${item.price}/unit${low?' • LOW STOCK':''}</p></div>
+   </div>
+   <div class="flex items-center gap-3">
+    <span class="px-4 py-2 ${low?'bg-danger/10 text-danger':'bg-accent-orange/10 text-accent-orange'} rounded-xl text-xs font-bold">${item.qty} Units</span>
+    <button onclick="removeInventory(${i})" class="p-2 rounded-lg hover:bg-danger/10 text-neutral-600 hover:text-danger transition"><span class="material-symbols-outlined text-lg">delete</span></button>
+   </div>
+  </div>`;
+ }).join('');
+ if(!inv.length) list.innerHTML='<p class="text-neutral-600 text-center py-20">No inventory items.</p>';
+}
+function addInventory() {
+ const name=document.getElementById('invName').value.trim();
+ const cat=document.getElementById('invCat').value;
+ const qty=parseInt(document.getElementById('invQty').value)||0;
+ const price=parseInt(document.getElementById('invPrice').value)||0;
+ if(!name||!qty||!price){toast('Fill all fields','error');return}
+ let inv=DB.get('inventory');
+ const existing=inv.findIndex(i=>i.name.toLowerCase()===name.toLowerCase());
+ if(existing>-1){inv[existing].qty+=qty;inv[existing].price=price;}
+ else inv.unshift({name,cat,qty,price});
+ DB.set('inventory',inv);
+ document.getElementById('invName').value='';document.getElementById('invQty').value='';document.getElementById('invPrice').value='';
+ toast('Stock updated!','success');renderInventory();
+}
+function removeInventory(i) {
+ let inv=DB.get('inventory');inv.splice(i,1);DB.set('inventory',inv);
+ toast('Item removed','info');renderInventory();
+}
+
+// ========== ADMIN ==========
+function renderAdmin() {
+ if(!checkSession()){navigate('login');return}
+ document.getElementById('adminName').textContent=currentUser.name;
+ const users=DB.get('users');
+ const orders=DB.get('orders');
+ const vendors=users.filter(u=>u.role==='vendor').length;
+ const revenue=orders.reduce((s,o)=>s+o.total,0);
+ document.getElementById('aUsers').textContent=users.length;
+ document.getElementById('aVendors').textContent=vendors;
+ document.getElementById('aOrders').textContent=orders.length;
+ document.getElementById('aRevenue').textContent='₹'+revenue.toLocaleString();
+ const tbody=document.getElementById('adminUsers');
+ tbody.innerHTML=users.map(u=>`
+  <tr class="table-row">
+   <td class="p-6 font-bold"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-${u.role==='admin'?'info':u.role==='vendor'?'accent-orange':'primary'}/10 text-${u.role==='admin'?'info':u.role==='vendor'?'accent-orange':'primary'} flex items-center justify-center text-xs font-bold">${u.name.charAt(0)}</div>${u.name}</div></td>
+   <td class="p-6"><span class="badge bg-${u.role==='admin'?'info':u.role==='vendor'?'accent-orange':'primary'}/10 text-${u.role==='admin'?'info':u.role==='vendor'?'accent-orange':'primary'}">${u.role}</span></td>
+   <td class="p-6 text-neutral-400">${u.mobile}</td>
+   <td class="p-6 text-neutral-500 text-xs">${u.joined}</td>
+   <td class="p-6 text-right"><button onclick="deleteUser('${u.id}')" class="p-2 rounded-lg hover:bg-danger/10 text-neutral-600 hover:text-danger transition"><span class="material-symbols-outlined text-lg">delete</span></button></td>
+  </tr>
+ `).join('');
+}
+function deleteUser(uid) {
+ if(!confirm('Delete this user?'))return;
+ let users=DB.get('users').filter(u=>u.id!==uid);
+ DB.set('users',users);
+ toast('User deleted','info');renderAdmin();
+}
+function clearAllData() {
+ if(!confirm('RESET ALL DATA? This cannot be undone.'))return;
+ Object.keys(localStorage).filter(k=>k.startsWith('jk_')).forEach(k=>localStorage.removeItem(k));
+ toast('Database reset','info');
+ seedData();renderAdmin();
+}
+
+// ========== ORDER SUCCESS RENDERING ==========
+// Override navigate to handle success page
+const _origNav = navigate;
+// We use MutationObserver or just handle in navigate
+// Simpler: add render call in navigate for success page
+(function(){
+ const origNav = window.navigate;
+ window.navigate = function(page) {
+  origNav(page);
+  if(page==='order-success') {
+   const order=JSON.parse(sessionStorage.getItem('jk_latestOrder')||'null');
+   if(order){
+    document.getElementById('successOrderId').textContent='#'+order.id;
+    document.getElementById('successTotal').textContent='₹'+order.total.toLocaleString();
+   }
+  }
+ };
+})();
+
+// ========== MOBILE NAV ==========
+function toggleMobileNav() {
+ document.getElementById('mobileNav').classList.toggle('hidden');
+ document.getElementById('mobileNav').classList.toggle('flex');
 }
 
 // ========== INIT ==========
-renderFarmerProducts();
-renderInvoice();
-
-// Simulate real-time stock notification on load
-setTimeout(() => {
-  showToast('🌾', 'नमस्ते! स्वागत है', 'Jaymani Krishi Sewa — Pandey Traders लाइव है');
-}, 1000);
+seedData();
+// Check if already logged in
+if(checkSession()) {
+ // Stay on landing, let user click
+}
 </script>
 </body>
 </html>
